@@ -1,5 +1,8 @@
 package com.app.entities;
 
+import java.sql.Time;
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -11,23 +14,21 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Getter
+@Table(name = "events")
 @Setter
-@ToString
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "patients")
-public class Patient extends BaseEntity {
-
-	@Column(name = "name",length = 15)
-	private String name;
-	@Column(length = 7)
-	private String gender;
-	
-	private int age;
-	@Column(length = 15)
-	private String doctorName;
-	
+@ToString
+public class Event extends BaseEntity {
+    @Column(length = 50)
+	private String title;
 	private String description;
+	private Date event_start_date;
+	private Date event_end_date;
+	private Time event_start_time;
+	private Time event_end_time;
+	private String event_poster;
+	
 	
 }

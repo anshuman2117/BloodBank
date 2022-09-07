@@ -17,26 +17,35 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-@Table(name = "user_table")
+@Table(name = "users")
 public class User extends BaseEntity {
 	
-	@Column(length = 30)
-	private String name;
+	@Column(length = 25)
+	private String firstName;
+	
+	@Column(length = 25)
+	private String lastName;
+	
 	@Column(length = 30, unique = true)
 	private String email;
+	
 	@Column(length = 20)
 	private String password;
-	@Column(length = 10)
+	
+	@Column(name = "contact_number",length = 15)
 	private String mobNo;
-	@Column(length = 20)
-	private String batch;
-	@Column(length = 20)
-	private String rollNo;
+	
+	private int age;
+	
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
+	
+	@Column(name = "profile_image")
+	private String image;
+	
+	@Enumerated(EnumType.STRING)
+	private Role role;
+	
 
-	public User(String email, String password, String batch, String rollNo) {
-		this.email = email;
-		this.password = password;
-		this.batch = batch;
-		this.rollNo = rollNo;
-	}
+	
 }
