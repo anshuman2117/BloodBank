@@ -1,4 +1,4 @@
-package com.app.pojo;
+package com.app.entities;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
