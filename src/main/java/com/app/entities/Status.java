@@ -1,5 +1,5 @@
 package com.app.entities;
 
 public enum Status {
-APPROVED,PENDING,REJECTED
+	APPROVED,PENDING,REJECTED
 }
