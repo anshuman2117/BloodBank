@@ -40,7 +40,7 @@ import lombok.ToString;
 @Table(name = "blood_consumptions")
 public class BloodConsumption extends BaseEntity{
 	
-	@Column(name = "blood_group",length = 10)
+	@Column(name = "blood_group",length = 15)
 	@Enumerated(EnumType.STRING)
 	private BloodGroup bloodGroup;
 	

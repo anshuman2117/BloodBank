@@ -1,7 +1,4 @@
 package com.app.entities;
-
-
-
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -9,8 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,12 +21,13 @@ import lombok.ToString;
 | otp_expiry_time | datetime | NO   |     | NULL    |                |
 +-----------------+----------+------+-----+---------+----------------+
 */
-@Entity
+
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 
+@Entity
 @Table(name = "forget_Passwords")
 public class ForgetPassword extends BaseEntity {
 	
@@ -40,7 +36,7 @@ public class ForgetPassword extends BaseEntity {
 	private User user;
 	
 	@Column(name= "OTP")
-	private long otp;
+	private int otp;
 	
 	@Column(name= "OTP_expiry_time")
 	private LocalDateTime otp_expiry_time;

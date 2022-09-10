@@ -2,6 +2,8 @@ package com.app.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -21,11 +23,14 @@ public class Patient extends BaseEntity {
 
 	@Column(length = 15)
 	private String name;
+	
 	@Column(length = 7)
-	private String gender;
+	@Enumerated(EnumType.STRING)
+	private Gender gender;
 	
 	private int age;
-	@Column(length = 15)
+	
+	@Column(length = 30)
 	private String doctorName;
 	
 	private String description;

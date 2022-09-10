@@ -32,7 +32,7 @@ import lombok.ToString;
 @Table(name = "addresses")
 public class address extends BaseEntity {
 	
-	@Column(name = "address_type",length = 10)
+	@Column(name = "address_type",length = 15)
 	@Enumerated(EnumType.STRING)
 	private Entity_type entity_type;
 	
@@ -48,7 +48,7 @@ public class address extends BaseEntity {
 	private String state;
 	
 
-	private long pincode;
+	private int pincode;
 	
 	@Column(name = "address")
 	private String address;

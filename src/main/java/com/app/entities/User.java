@@ -17,6 +17,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
+
 @Table(name = "users")
 public class User extends BaseEntity {
 	
@@ -48,6 +50,6 @@ public class User extends BaseEntity {
 	@Column(length = 10)
 	private Role role;
 	
-
+	
 	
 }

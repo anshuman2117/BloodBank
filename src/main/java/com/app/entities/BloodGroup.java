@@ -2,5 +2,5 @@ package com.app.entities;
 
 public enum BloodGroup {
 
-	Opos,Oneg,ABpos,ABneg,Apos,Aneg,Bpos,Bneg
+	O_positive,O_negative,AB_positive,AB_negative,A_positive,A_negative,B_positive,B_negative
 }

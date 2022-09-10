@@ -45,9 +45,9 @@ public class BloodDonation extends BaseEntity {
 	private User user;
 	
 	@Column(name = "blood_sample_id",length = 12)
-	private int blood_sample_id;
+	private String blood_sample_id;
 	
-	@Column(name = "blood_group",length = 10)
+	@Column(name = "blood_group",length = 15)
 	@Enumerated(EnumType.STRING)
 	private BloodGroup bloodGroup;
 	
@@ -65,7 +65,7 @@ public class BloodDonation extends BaseEntity {
 	@Column(name = "creation_date")
 	private LocalDate creation_date;
 
-	public BloodDonation(User user, int blood_sample_id, BloodGroup bloodGroup, int bagSize, int bagQuantity,
+	public BloodDonation(User user, String blood_sample_id, BloodGroup bloodGroup, int bagSize, int bagQuantity,
 			LocalDate date_of_donation, LocalDate creation_date) {
 		super();
 		this.user = user;

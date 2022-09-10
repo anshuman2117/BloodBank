@@ -16,32 +16,36 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
- @Table(name = "events")
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+
+@Entity
+@Table(name = "events")
 public class Event extends BaseEntity {
     @Column(length = 50)
 	private String title;
     
 	private String description;
 	
+	@Column(name = "event_start_date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate event_start_date;
+	private LocalDate eventStartDate;
 	
+	@Column(name = "event_end_date")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date event_end_date;
+	private Date eventEndDate;
 	
+	@Column(name = "event_start_time")
 	@DateTimeFormat(pattern = "hh:mm:ss")
-	private Time event_start_time;
+	private Time eventStartTime;
 	
+	@Column(name = "event_end_time")
 	@DateTimeFormat(pattern = "hh:mm:ss")
-	private Time event_end_time;
+	private Time eventEndTime;
 	
 	private String event_poster;
-	
 	
 }

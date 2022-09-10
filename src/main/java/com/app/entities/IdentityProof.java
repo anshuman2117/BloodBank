@@ -54,7 +54,7 @@ public class IdentityProof extends BaseEntity{
 		this.user = user;
 		this.document_type = document_type;
 		this.documemnt_uniqid_number = documemnt_uniqid_number;
-		this.status = status;
+		this.status = status.PENDING;
 	}
 	
 	
