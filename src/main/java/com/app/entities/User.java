@@ -20,10 +20,10 @@ import lombok.ToString;
 @Table(name = "users")
 public class User extends BaseEntity {
 	
-	@Column(length = 25)
+	@Column(length = 25,name="first_name")
 	private String firstName;
 	
-	@Column(length = 25)
+	@Column(length = 25,name = "last_name")
 	private String lastName;
 	
 	@Column(length = 30, unique = true)
@@ -33,17 +33,19 @@ public class User extends BaseEntity {
 	private String password;
 	
 	@Column(name = "contact_number",length = 15)
-	private String mobNo;
+	private String contactNo;
 	
 	private int age;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(name = "Gender",length = 10)
 	private Gender gender;
 	
 	@Column(name = "profile_image")
 	private String image;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(length = 10)
 	private Role role;
 	
 

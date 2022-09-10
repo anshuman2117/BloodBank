@@ -1,10 +1,17 @@
 package com.app.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,15 +38,17 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @Table(name = "blood_donations")
-public class blood_donations {
+public class BloodDonation extends BaseEntity {
 	
-	@Column(name = "user_id")
-	private int user_id;
+	@ManyToOne   // one user can donate many times
+	@JoinColumn(name = "user_id")
+	private User user;
 	
 	@Column(name = "blood_sample_id",length = 12)
 	private int blood_sample_id;
 	
-	@Column(name = "blood_group")
+	@Column(name = "blood_group",length = 10)
+	@Enumerated(EnumType.STRING)
 	private BloodGroup bloodGroup;
 	
 	@Column(name = "bag_size")
@@ -48,16 +57,18 @@ public class blood_donations {
 	@Column(name = "bag_quantity")
 	private int bagQuantity;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "donation_date")
-	private Date date_of_donation;
+	private LocalDate date_of_donation;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "creation_date")
-	private Date creation_date;
+	private LocalDate creation_date;
 
-	public blood_donations(int user_id, int blood_sample_id, BloodGroup bloodGroup, int bagSize, int bagQuantity,
-			Date date_of_donation, Date creation_date) {
+	public BloodDonation(User user, int blood_sample_id, BloodGroup bloodGroup, int bagSize, int bagQuantity,
+			LocalDate date_of_donation, LocalDate creation_date) {
 		super();
-		this.user_id = user_id;
+		this.user = user;
 		this.blood_sample_id = blood_sample_id;
 		this.bloodGroup = bloodGroup;
 		this.bagSize = bagSize;

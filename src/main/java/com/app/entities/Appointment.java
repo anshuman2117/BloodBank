@@ -1,12 +1,19 @@
 package com.app.entities;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Date;
+
+import java.time.LocalDate;
+
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,27 +28,42 @@ import lombok.ToString;
 @Table(name = "appointments")
 public class Appointment extends BaseEntity{
 
-	private int user_id;
-	private Date appointment_creation_date;
-	private Date appointment_schedule_date;
+	@ManyToOne        // one user can have many appointments
+	@JoinColumn(name = "user_id")
+	private User user;  
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "appointment_creation_date")
+	private LocalDate appointmentCreationDate;
+	
+	@Column(name = "appointment_schedule_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate appointmentScheduleDate;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(length = 15)
 	private Center center;
+	
 	@Column(name = "bag_size")
 	private int bagSize;
+	
 	@Column(name = "bag_quantity")
 	private int bagQuantity;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(length = 15)
 	private Status status;
 	
-	public Appointment(int user_id, Date appointment_schedule_date, Center center, int bagSize, int bagQuantity,
-			Status status) {
+	public Appointment(User user, LocalDate appointment_schedule_date, Center center, int bagSize, int bagQuantity) {
 		super();
-		this.user_id = user_id;
+		this.user = user;
 		this.center = center;
-		this.appointment_creation_date = Timestamp.valueOf(LocalDateTime.now());
-		this.appointment_schedule_date = appointment_schedule_date;
+		this.appointmentCreationDate = LocalDate.now();
+		this.appointmentScheduleDate = appointment_schedule_date;
 		this.bagSize = bagSize;
 		this.bagQuantity = bagQuantity;
-		this.status = status;
+		this.status = Status.PENDING;
 	}
-	
-	
 }
+	
+

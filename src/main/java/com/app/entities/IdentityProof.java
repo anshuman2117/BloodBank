@@ -2,6 +2,10 @@ package com.app.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -27,24 +31,27 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @Table(name = "identity_proofs")
-public class identity_proof {
+public class IdentityProof extends BaseEntity{
 	
-	@Column(name= "user_id")
-	private int user_id;
+	@JoinColumn(name = "user_id")
+	@OneToOne
+	private User user;
 	
-	@Column(name = "document_type")
-	private Document_type document_type;
+	@Column(name = "document_type",length = 15)
+	@Enumerated(EnumType.STRING)
+	private DocumentType document_type;
 	
-	@Column(name = "document_id",length = 12)
+	@Column(name = "document_id",length = 15)
 	private String documemnt_uniqid_number;
 	
-	@Column(name = "verifiaction_status")
+	@Column(name = "verifiaction_status",length = 15)
+	@Enumerated(EnumType.STRING)
 	private Verification_status status;
 
-	public identity_proof(int user_id, Document_type document_type, String documemnt_uniqid_number,
+	public IdentityProof(User user, DocumentType document_type, String documemnt_uniqid_number,
 			Verification_status status) {
 		super();
-		this.user_id = user_id;
+		this.user = user;
 		this.document_type = document_type;
 		this.documemnt_uniqid_number = documemnt_uniqid_number;
 		this.status = status;

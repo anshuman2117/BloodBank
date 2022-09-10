@@ -1,5 +1,5 @@
 package com.app.entities;
 
-public enum Document_type {
+public enum DocumentType {
 	AADHAR_CARD,PAN_CARD,ELECTION_CARD
 }

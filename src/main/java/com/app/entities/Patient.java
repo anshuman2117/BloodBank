@@ -19,7 +19,7 @@ import lombok.ToString;
 @Table(name = "patients")
 public class Patient extends BaseEntity {
 
-	@Column(name = "name",length = 15)
+	@Column(length = 15)
 	private String name;
 	@Column(length = 7)
 	private String gender;

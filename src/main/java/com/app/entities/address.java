@@ -2,6 +2,8 @@ package com.app.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -30,31 +32,32 @@ import lombok.ToString;
 @Table(name = "addresses")
 public class address extends BaseEntity {
 	
-	@Column(name = "address_type")
+	@Column(name = "address_type",length = 10)
+	@Enumerated(EnumType.STRING)
 	private Entity_type entity_type;
 	
 	@Column(name = "address_id")
 	private int entity_id;
 	
-	//@Column(name = "city")
+	
 	@Column(length = 20)
 	private String city;
 	
-	//@Column(name = "state")
+	
 	@Column(length = 20)
 	private String state;
 	
-	//@Column(name = "pincode")
-	private int pincode;
+
+	private long pincode;
 	
-	//@Column(name = "address")
+	@Column(name = "address")
 	private String address;
 	
-	@Column(name = "default")
-	private boolean is_default;
+	@Column(name = "is_default")
+	private boolean isDefault;
 
 	public address(Entity_type entity_type, int entity_id, String city, String state, int pincode,
-			String address, boolean is_default) {
+			String address) {
 		super();
 		//this.user_id = user_id;
 		this.entity_type = entity_type;
@@ -63,7 +66,7 @@ public class address extends BaseEntity {
 		this.state = state;
 		this.pincode = pincode;
 		this.address = address;
-		this.is_default = is_default;
+		this.isDefault = true;
 	}
 	
 	
