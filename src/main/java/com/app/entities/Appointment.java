@@ -53,17 +53,20 @@ public class Appointment extends BaseEntity{
 	@Enumerated(EnumType.STRING)
 	@Column(length = 15)
 	private Status status;
-	
-	public Appointment(User user, LocalDate appointment_schedule_date, Center center, int bagSize, int bagQuantity) {
+
+	public Appointment(User user, LocalDate appointmentCreationDate, LocalDate appointmentScheduleDate, Center center,
+			int bagSize, int bagQuantity) {
 		super();
 		this.user = user;
+		this.appointmentCreationDate = appointmentCreationDate;
+		this.appointmentScheduleDate = appointmentScheduleDate;
 		this.center = center;
-		this.appointmentCreationDate = LocalDate.now();
-		this.appointmentScheduleDate = appointment_schedule_date;
 		this.bagSize = bagSize;
 		this.bagQuantity = bagQuantity;
 		this.status = Status.PENDING;
 	}
+	
+	
 }
 	
 
