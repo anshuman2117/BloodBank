@@ -3,6 +3,7 @@ package com.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,38 +26,49 @@ public class UserController {
 	
 	//constructor of user controller
 	public UserController() {
-		System.out.println("in ctor of " + getClass());
+		System.out.println("in constructor of " + getClass());
 	}
 	
 	//Get all users
 	@GetMapping
-	public List<User> getAllUsers(){
-		return this.userService.getAllUsers();
+	public ResponseEntity<?> getAllUsers(){
+		List<User> users = userService.getAllUsers();
+		if (users.isEmpty()) 
+			return new ResponseEntity<>("user list is empty", HttpStatus.OK);
+		return new ResponseEntity<>(users,HttpStatus.OK);
 	}
 	
 	//Get user by UserId
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getUser(@PathVariable Long id) {
-		return ResponseEntity.ok(userService.getUser(id));
+		try {
+			return ResponseEntity.ok(userService.getUser(id));
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	//Add user
 	@PostMapping
-	public User addUser(@RequestBody User user){
-		return this.userService.addUser(user);
+	public ResponseEntity<User> addUser(@RequestBody User user){
+		return new ResponseEntity<>(userService.addUser(user), HttpStatus.CREATED);
 	}
 	
 	//Update user details
 	@PutMapping
-	public User updateUser(@RequestBody User user) {
-		return this.userService.updateUser(user);
+	public ResponseEntity<User> updateUser(@RequestBody User user) {
+		return new ResponseEntity<User>(userService.updateUser(user),HttpStatus.OK);
 	}
 	
 	
 	//delete user
 	@DeleteMapping("/{userid}")
-	public void deleteUser(@PathVariable Long userid) {
-		userService.deleteUser(userid);
+	public ResponseEntity<?> deleteUser(@PathVariable Long userid) {
+		try {
+			return ResponseEntity.ok(userService.deleteUser(userid));
+		} catch (RuntimeException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
 	}
 	
 }

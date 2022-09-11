@@ -30,7 +30,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @Table(name = "addresses")
-public class address extends BaseEntity {
+public class Address extends BaseEntity {
 	
 	@Column(name = "address_type",length = 15)
 	@Enumerated(EnumType.STRING)
@@ -56,7 +56,7 @@ public class address extends BaseEntity {
 	@Column(name = "is_default")
 	private boolean isDefault;
 
-	public address(Entity_type entity_type, int entity_id, String city, String state, int pincode,
+	public Address(Entity_type entity_type, int entity_id, String city, String state, int pincode,
 			String address) {
 		super();
 		//this.user_id = user_id;

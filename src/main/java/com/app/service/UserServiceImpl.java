@@ -3,6 +3,8 @@ package com.app.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.app.custom_excpetions.ResourceNotFoundException;
 import com.app.dao.IUserDao;
 import com.app.entities.User;
 
@@ -21,13 +23,13 @@ public class UserServiceImpl implements IUserService {
 	
 	@Override
 	public User getUser(Long id) {
-		return userDao.findById(id).get();
+		return userDao.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid User id" + id));
 	}
 
 	@Override
 	public User addUser(User user) {
-		userDao.save(user);
-		return user;
+		return userDao.save(user);
 	}
 	
 	@Override
@@ -37,9 +39,13 @@ public class UserServiceImpl implements IUserService {
 	
 	
 	@Override
-	public void deleteUser(Long id) {
-		User deleteuser=userDao.getById(id);
-		userDao.delete(deleteuser);	
+	public String deleteUser(Long id) {
+		String message= "Deletion of User failed";
+		if (userDao.existsById(id)) {
+			userDao.deleteById(id);
+			message= "User removed successfully with UserId : "+id;
+		}
+		return message;	
 	}
 
 }
