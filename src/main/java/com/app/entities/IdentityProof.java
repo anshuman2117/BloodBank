@@ -42,7 +42,7 @@ public class IdentityProof extends BaseEntity{
 	private DocumentType documentType;
 	
 	@Column(name = "document_id",length = 15)
-	private String UniqueIdNumber;
+	private String uniqueIdNumber;
 	
 	@Column(name = "verifiaction_status",length = 15)
 	@Enumerated(EnumType.STRING)
@@ -52,7 +52,7 @@ public class IdentityProof extends BaseEntity{
 		super();
 		this.user = user;
 		this.documentType = document_type;
-		this.UniqueIdNumber = documemnt_uniqid_number;
+		this.uniqueIdNumber = documemnt_uniqid_number;
 		this.status = VerificationStatus.PENDING;
 	}
 	
