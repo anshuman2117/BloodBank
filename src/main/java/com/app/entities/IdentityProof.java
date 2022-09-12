@@ -39,22 +39,21 @@ public class IdentityProof extends BaseEntity{
 	
 	@Column(name = "document_type",length = 15)
 	@Enumerated(EnumType.STRING)
-	private DocumentType document_type;
+	private DocumentType documentType;
 	
 	@Column(name = "document_id",length = 15)
-	private String documemnt_uniqid_number;
+	private String UniqueIdNumber;
 	
 	@Column(name = "verifiaction_status",length = 15)
 	@Enumerated(EnumType.STRING)
-	private Verification_status status;
+	private VerificationStatus status;
 
-	public IdentityProof(User user, DocumentType document_type, String documemnt_uniqid_number,
-			Verification_status status) {
+	public IdentityProof(User user, DocumentType document_type, String documemnt_uniqid_number) {
 		super();
 		this.user = user;
-		this.document_type = document_type;
-		this.documemnt_uniqid_number = documemnt_uniqid_number;
-		this.status = status.PENDING;
+		this.documentType = document_type;
+		this.UniqueIdNumber = documemnt_uniqid_number;
+		this.status = VerificationStatus.PENDING;
 	}
 	
 	

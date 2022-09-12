@@ -3,13 +3,14 @@ package com.app.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.app.custom_excpetions.ResourceNotFoundException;
 import com.app.dao.IUserDao;
 import com.app.entities.User;
 
 @Service
-
+@Transactional
 public class UserServiceImpl implements IUserService {
 
 	
@@ -46,6 +47,13 @@ public class UserServiceImpl implements IUserService {
 			message= "User removed successfully with UserId : "+id;
 		}
 		return message;	
+	}
+
+	@Override
+	public User getByEmailAndPassword(String email, String password) {
+		// TODO Auto-generated method stub
+		return userDao.findByEmailAndPassword(email, password);
+		 
 	}
 
 }

@@ -5,14 +5,21 @@ import java.util.List;
 import com.app.entities.User;
 
 public interface IUserService {
-	
-	  public List<User> getAllUsers();
+	// to get the list of all registered user
+	public List<User> getAllUsers();
 
-	  public User getUser(Long id);
-	  
-	  public User addUser(User user);
-	  	  
-	  public User updateUser(User user);
-	  
-	  public String deleteUser(Long id);
+	// to get the user details by giving email and password ->for login
+	public User getByEmailAndPassword(String email, String password);
+
+//      to get the user  details of a particular user by id
+	public User getUser(Long id);
+
+//	  to add a new user
+	public User addUser(User user);
+
+//	  	  to update / modify  the user detail
+	public User updateUser(User user);
+
+//	  to delete the user
+	public String deleteUser(Long id);
 }

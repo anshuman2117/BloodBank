@@ -34,7 +34,7 @@ public class Address extends BaseEntity {
 	
 	@Column(name = "address_type",length = 15)
 	@Enumerated(EnumType.STRING)
-	private Entity_type entity_type;
+	private EntityType entity_type;
 	
 	@Column(name = "address_id")
 	private int entity_id;
@@ -56,7 +56,7 @@ public class Address extends BaseEntity {
 	@Column(name = "is_default")
 	private boolean isDefault;
 
-	public Address(Entity_type entity_type, int entity_id, String city, String state, int pincode,
+	public Address(EntityType entity_type, int entity_id, String city, String state, int pincode,
 			String address) {
 		super();
 		//this.user_id = user_id;

@@ -1,5 +1,5 @@
 package com.app.entities;
 
-public enum Verification_status {
+public enum VerificationStatus {
 	DONE,PENDING,REJECTED
 }
