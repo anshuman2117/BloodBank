@@ -11,9 +11,9 @@ public interface IAppointmentService {
 	public List<Appointment> getAllAppointment();
 
 //	to get the appointment status
-	public String getAppointmentStatus(Long id);
+	public List<Appointment> pendingAppointments();
 
 //	to approve the  appointments
-	public void updateStatus(Status status, Long id);
+	public Appointment updateStatus(String status, Appointment appointment);
 
 }

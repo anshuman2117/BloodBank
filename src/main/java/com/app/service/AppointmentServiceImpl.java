@@ -23,16 +23,33 @@ public class AppointmentServiceImpl implements IAppointmentService {
 		return appointmentDao.findAll();
 	}
 	
+	//-------------------------------------------------------------------check it once------------------
+   // doubt in this part
 	@Override
-	public String getAppointmentStatus(Long id) {
+//	public void updateStatus(String status,Long id) {
+//		if(status.toString().equals("REJECTED")) {
+//			appointmentDao.deleteById(id);
+//		}
+//		else {
+//		appointmentDao.updateAppointmentStatus(status,id);
+//		}
+//	}
+	public Appointment updateStatus(String status,Appointment appointment) {
 		
-		return appointmentDao.getStatusById(id);
+		Appointment id2 = new Appointment();
+		id2=appointmentDao.getById(appointment.getId());
+//		id2.setStatus(Status.APPROVED);
+		id2.setStatus(Status.valueOf(status));
+		
+		return id2;
 	}
 
+
+
 	@Override
-	public void updateStatus(Status status,Long id) {
-//		appointmentDao.updateAppointmentStatus(status,id);
+	public List<Appointment> pendingAppointments() {
 		
+		return appointmentDao.getPendingAppointment();
 	}
 
 	

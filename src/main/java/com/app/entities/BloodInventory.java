@@ -24,7 +24,7 @@ public class BloodInventory extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private BloodGroup bloodGroup;
 	
-	@Column(name = "bag_size",length = 10)
+	@Column(name = "bag_size",length = 10)// in ml
 	private int bagSize;
 	
 	@Column(name = "bag_quantity")

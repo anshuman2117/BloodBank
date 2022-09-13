@@ -54,10 +54,10 @@ public class Appointment extends BaseEntity{
 	@Column(length = 15)
 	private Status status;
 
-	public Appointment(User user, LocalDate appointmentCreationDate, LocalDate appointmentScheduleDate, Center center,
+	public Appointment( LocalDate appointmentCreationDate, LocalDate appointmentScheduleDate, Center center,
 			int bagSize, int bagQuantity) {
 		super();
-		this.user = user;
+//		this.user = user;
 		this.appointmentCreationDate = appointmentCreationDate;
 		this.appointmentScheduleDate = appointmentScheduleDate;
 		this.center = center;
