@@ -9,7 +9,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -44,7 +43,7 @@ public class BloodConsumption extends BaseEntity{
 	@Enumerated(EnumType.STRING)
 	private BloodGroup bloodGroup;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "appointment_id")
 	private Appointment appointmentId;
 	
@@ -54,22 +53,21 @@ public class BloodConsumption extends BaseEntity{
 	@Column(name = "bag_quantity")
 	private int bagQuantity;
 	
-	@ManyToOne
-	@JoinColumn(name = "patient_id")
-	private Patient pateint_id;
+//	@ManyToOne
+//	@JoinColumn(name = "patient_id")
+//	private Patient pateint_id;
 	
 	@Column(name = "creation_date")
 	private LocalDate creation_date;
 
-	public BloodConsumption(BloodGroup bloodGroup, Appointment appointmentId, int bagSize, int bagQuantity, Patient pateint_id,
+	public BloodConsumption(BloodGroup bloodGroup, Appointment appointmentId, int bagSize, int bagQuantity, 
 			LocalDate creation_date) {
 		super();
 		this.bloodGroup = bloodGroup;
 		this.appointmentId = appointmentId;
 		this.bagSize = bagSize;
 		this.bagQuantity = bagQuantity;
-		this.pateint_id = pateint_id;
-		this.creation_date = creation_date;
+		this.creation_date = LocalDate.now();
 	}
 	
 	

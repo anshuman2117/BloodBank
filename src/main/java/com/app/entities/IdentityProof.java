@@ -8,6 +8,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.validator.constraints.UniqueElements;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,8 +37,10 @@ import lombok.ToString;
 @Table(name = "identity_proofs")
 public class IdentityProof extends BaseEntity{
 	
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id"/* ,updatable = false */)
 	@OneToOne
+//	@Cascade(CascadeType.ALL)
+	
 	private User user;
 	
 	@Column(name = "document_type",length = 15)
@@ -44,9 +50,9 @@ public class IdentityProof extends BaseEntity{
 	@Column(name = "document_id",length = 15)
 	private String uniqueIdNumber;
 	
-	@Column(name = "verifiaction_status",length = 15)
+	@Column(name = "verification_status",length = 15)
 	@Enumerated(EnumType.STRING)
-	private Status status;
+	private Status status=Status.PENDING;
 
 	public IdentityProof(User user, DocumentType document_type, String documemnt_uniqid_number) {
 		super();
@@ -54,6 +60,7 @@ public class IdentityProof extends BaseEntity{
 		this.documentType = document_type;
 		this.uniqueIdNumber = documemnt_uniqid_number;
 		this.status = Status.PENDING;
+		
 	}
 	
 	

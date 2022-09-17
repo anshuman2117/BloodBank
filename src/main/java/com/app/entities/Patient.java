@@ -28,7 +28,7 @@ public class Patient extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
 	
-	private int age;
+	private Integer age;
 	
 	@Column(length = 30)
 	private String doctorName;

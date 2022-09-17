@@ -3,11 +3,15 @@ package com.app.service;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dao.IBloodInventoryDao;
 import com.app.entities.BloodGroup;
 import com.app.entities.BloodInventory;
 
+@Service
+@Transactional
 public class BloodInventoryServiceImpl implements IBloodInventoryService {
 
 	@Autowired

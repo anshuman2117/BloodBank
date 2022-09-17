@@ -2,6 +2,7 @@ package com.app.service;
 
 import java.util.List;
 
+import com.app.dto.UserDTO;
 import com.app.entities.User;
 
 public interface IUserService {
@@ -15,11 +16,13 @@ public interface IUserService {
 	public User getUser(Long id);
 
 //	  to add a new user
-	public User addUser(User user);
+	public UserDTO addUser(UserDTO user);
+	
+	public User addUserByAdmin(UserDTO user);
 
 //	  	  to update / modify  the user detail
-	public User updateUser(User user);
-
+	public User updateUser(Long id,User user);
+	
 //	  to delete the user
 	public String deleteUser(Long id);
 }

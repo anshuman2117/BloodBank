@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -31,14 +33,11 @@ import lombok.ToString;
 @NoArgsConstructor
 @Table(name = "addresses")
 public class Address extends BaseEntity {
+		
 	
-	@Column(name = "address_type",length = 15)
-	@Enumerated(EnumType.STRING)
-	private EntityType entity_type;
-	
-	@Column(name = "address_id")
-	private int entity_id;
-	
+	@ManyToOne
+	@JoinColumn
+	private User user;
 	
 	@Column(length = 20)
 	private String city;
@@ -56,12 +55,12 @@ public class Address extends BaseEntity {
 	@Column(name = "is_default")
 	private boolean isDefault;
 
-	public Address(EntityType entity_type, int entity_id, String city, String state, int pincode,
+	public Address( User user, String city, String state, int pincode,
 			String address) {
 		super();
 		//this.user_id = user_id;
-		this.entity_type = entity_type;
-		this.entity_id = entity_id;
+		
+		this.user=user;
 		this.city = city;
 		this.state = state;
 		this.pincode = pincode;

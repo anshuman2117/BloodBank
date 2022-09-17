@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.AppointmentDTO;
 import com.app.entities.Appointment;
-import com.app.entities.BloodGroup;
-import com.app.entities.Status;
 import com.app.service.IAppointmentService;
-import com.app.service.IBloodInventoryService;
+
 
 @RestController
 @RequestMapping("/api/appointment")
@@ -38,14 +37,51 @@ public class AppointmentController {
 		return new ResponseEntity<>("no appointments",HttpStatus.OK) ;
 		
 	}
+	
+	// list of pending appointments   used by admin
+	
 	@GetMapping("/pending")
 	public ResponseEntity<?> listPendingAppointments(){
-		List<Appointment> allAppointment = appointmentService.pendingAppointments();
+		List<AppointmentDTO> allAppointment = appointmentService.pendingAppointments();
 		if(!allAppointment.isEmpty())
 		return new ResponseEntity<>(allAppointment,HttpStatus.OK) ;
 		return new ResponseEntity<>("no appointments",HttpStatus.OK) ;
 		
 	}
+	
+	// controller to modify the status of the appointments
+	
+	@PutMapping("/update")
+	public ResponseEntity<?> resolvePendingSts(@RequestParam String status,@RequestBody Appointment appointment) {
+		System.out.println("status:-> "+status+" appointment-> "+appointment.toString());
+		appointmentService.updateAppointmentsStatus(status, appointment);
+		return new ResponseEntity<>(appointmentService.appointmentById(appointment.getId()),HttpStatus.ACCEPTED);
+	}
+	
+	
+	
+	// controller to persist the   appointment and is sub - related  method to be written here
+	
+	@PostMapping
+	public ResponseEntity<?> persistAppointment(@RequestBody Appointment appointment){
+		
+		return new ResponseEntity<>(appointmentService.saveAppointment(appointment),HttpStatus.CREATED);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 //	@PutMapping   // @RequestParam String status,
 //	public ResponseEntity<?> updateAppointmentStatus( @RequestBody Appointment appointment) {//,int quantity, int bagSize, String bloodGroup

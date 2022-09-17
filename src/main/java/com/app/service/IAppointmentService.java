@@ -1,7 +1,9 @@
 package com.app.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.app.dto.AppointmentDTO;
 import com.app.entities.Appointment;
 import com.app.entities.Status;
 
@@ -11,9 +13,13 @@ public interface IAppointmentService {
 	public List<Appointment> getAllAppointment();
 
 //	to get the appointment status
-	public List<Appointment> pendingAppointments();
+	public List<AppointmentDTO> pendingAppointments();
+	
+//	to save/persist the appointments
+	 Appointment saveAppointment(Appointment appointment);
 
 //	to approve the  appointments
-	public Appointment updateStatus(String status, Appointment appointment);
-
+	public int updateAppointmentsStatus(String status, Appointment appointment);
+	
+    Appointment appointmentById(Long id);
 }

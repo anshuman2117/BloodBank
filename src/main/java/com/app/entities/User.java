@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,9 +19,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users")
 public class User extends BaseEntity {
 	
@@ -37,7 +40,7 @@ public class User extends BaseEntity {
 	@Column(name = "contact_number",length = 15)
 	private String contactNo;
 	
-	private int age;
+	private Integer age;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "Gender",length = 10)
@@ -48,8 +51,11 @@ public class User extends BaseEntity {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(length = 10)
-	private Role role;
+	@NotNull
+	private Role role=Role.USER;
 	
-	
+//	public User() {
+//		this.role=Role.USER;
+//	}
 	
 }
