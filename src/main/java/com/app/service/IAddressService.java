@@ -2,17 +2,21 @@ package com.app.service;
 
 import java.util.List;
 
+import com.app.dto.AddressDTO;
 import com.app.entities.Address;
 
 public interface IAddressService {
 	
-	public List<Address> getAllAddresses();
+	public List<AddressDTO> getAllAddresses();
 	
-	public Address getAddress(Long id);
+	public List<AddressDTO> getAllAddressofUser(Long id/* ,Address address */);
 	
-	public Address addAddress(Address address);
+	public Address addAddress(AddressDTO address);
+//	public Address addAddress(Address address);
 	
 	public Address updateAddress(Address address);
 	
-	public void deleteAddress(Long id);
+	public String deleteAddress(Long id);
+
+	public /*List<*/Address defaultUsersAddress(Long id/* ,Address address */);
 }

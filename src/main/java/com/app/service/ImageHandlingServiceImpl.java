@@ -31,7 +31,7 @@ public class ImageHandlingServiceImpl implements ImageHandlingService {
 	public User storeImage(Long id, MultipartFile imageFile) {
 		// get user detail by id
 		User findById = userDao.findById(id).orElseThrow(() -> new RuntimeException("------user not found-----"));
-		String completePath = baseFolder + File.separator + findById.getFirstName() + findById.getId();
+		String completePath = baseFolder + File.separator + findById.getFirstName() + findById.getId()+".jpg";
 		try {
 			Files.copy(imageFile.getInputStream(), Paths.get(completePath), StandardCopyOption.REPLACE_EXISTING);
 			findById.setImage(completePath);

@@ -7,6 +7,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +25,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
+
+//@DynamicInsert
+//@DynamicUpdate
 public class User extends BaseEntity {
 	
 	@Column(length = 25,name="first_name")

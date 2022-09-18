@@ -1,4 +1,5 @@
 package com.app.entities;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -39,13 +40,13 @@ public class ForgetPassword extends BaseEntity {
 	private int otp;
 	
 	@Column(name= "OTP_expiry_time")
-	private LocalDateTime otp_expiry_time;
+	private LocalDateTime otpExpiryTime;
 
 	public ForgetPassword(User user, int otp, LocalDateTime otp_expiry_time) {
 		super();
 		this.user = user;
 		this.otp = otp;
-		this.otp_expiry_time = otp_expiry_time;
+		this.otpExpiryTime = otp_expiry_time;
 	}
 	
 	

@@ -4,9 +4,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,11 +36,13 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @Table(name = "addresses")
+@DynamicInsert
+@DynamicUpdate
 public class Address extends BaseEntity {
 		
 	
-	@ManyToOne
-	@JoinColumn
+	@ManyToOne /* (fetch = FetchType.LAZY ) */
+	@JoinColumn(name = "user_id")
 	private User user;
 	
 	@Column(length = 20)

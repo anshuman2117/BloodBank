@@ -47,7 +47,7 @@ public class IdentityProof extends BaseEntity{
 	@Enumerated(EnumType.STRING)
 	private DocumentType documentType;
 	
-	@Column(name = "document_id",length = 15)
+	@Column(name = "document_id",length = 15,unique = true)
 	private String uniqueIdNumber;
 	
 	@Column(name = "verification_status",length = 15)

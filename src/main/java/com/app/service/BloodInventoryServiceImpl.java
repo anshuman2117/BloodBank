@@ -1,6 +1,7 @@
 package com.app.service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,12 @@ public class BloodInventoryServiceImpl implements IBloodInventoryService {
 	@Override
 	public int subBloodInventory(int quantity,int bagSize,BloodGroup bloodGroup) {
 		return bloodInventoryDao.subBloodCount(quantity, LocalDate.now(),bagSize, bloodGroup);
+	}
+
+	@Override
+	public List<BloodInventory> listBloodInventory() {
+		
+		return bloodInventoryDao.findAll();
 	}
 
 }

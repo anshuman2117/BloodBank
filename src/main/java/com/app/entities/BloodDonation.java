@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -44,8 +45,8 @@ public class BloodDonation extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@Column(name = "blood_sample_id",length = 12)
-	private String blood_sample_id;
+	@Column(name = "blood_sample_id",length = 12,unique = true)
+	private String bloodSampleId;
 	
 	@Column(name = "blood_group",length = 15)
 	@Enumerated(EnumType.STRING)
@@ -59,22 +60,22 @@ public class BloodDonation extends BaseEntity {
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "donation_date")
-	private LocalDate date_of_donation;
+	private LocalDate dateOfDonation;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "creation_date")
-	private LocalDate creation_date;
+	private LocalDate creationDate;
 
 	public BloodDonation(User user, String blood_sample_id, BloodGroup bloodGroup, int bagSize, int bagQuantity,
 			LocalDate date_of_donation, LocalDate creation_date) {
 		super();
 		this.user = user;
-		this.blood_sample_id = blood_sample_id;
+		this.bloodSampleId = blood_sample_id;
 		this.bloodGroup = bloodGroup;
 		this.bagSize = bagSize;
 		this.bagQuantity = bagQuantity;
-		this.date_of_donation = date_of_donation;
-		this.creation_date = creation_date;
+		this.dateOfDonation = date_of_donation;
+		this.creationDate = creation_date;
 	}
 	
 	
