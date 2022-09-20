@@ -20,10 +20,10 @@ public class EmailSendingServiceImpl implements IEmailSendingService {
 
 	@Override
 	public void sendEmail(String to, String messageBody, String subject) {
-		 log.warn("----sending mail ---in mail sending method----> " );
-		 log.warn("----sending mail ---see mesg body-> "+messageBody );
-		 log.warn("----sending mail ---send mail to --> "+to );
-		 log.warn("----sending mail ---subject--> "+subject );
+		 log.info("----sending mail ---in mail sending method----> " );
+		 log.info("----sending mail ---see mesg body-> "+messageBody );
+		 log.info("----sending mail ---send mail to --> "+to );
+		 log.info("----sending mail ---subject--> "+subject );
 		String from="ebankservices5@gmail.com";
   
 		// need of this method is to set the properties in this  class

@@ -2,7 +2,7 @@ package com.app.controller;
 
 import java.util.List;
 
-import org.apache.catalina.mapper.Mapper;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,15 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.app.custom_excpetions.ResourceNotFoundException;
 import com.app.dto.UserDTO;
+import com.app.entities.BloodDonation;
 import com.app.entities.IdentityProof;
 import com.app.entities.Status;
 import com.app.entities.User;
 import com.app.service.ImageHandlingService;
+import com.app.service.BloodDonationService.IBloodDonationService;
 import com.app.service.IdentityproofService.IIdentityProofService;
 import com.app.service.IdentityproofService.IdentityProofServiceImpl;
 import com.app.service.UserService.IUserService;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -39,24 +44,18 @@ public class UserController {
 	private IIdentityProofService identityProofService;
 	
 	@Autowired
-	private ModelMapper modelMapper;
+	private IBloodDonationService bloodDonationService;
 	
 	@Autowired
-	private ImageHandlingService imageHandlingService;
+	private ModelMapper modelMapper;
+	
 	
 	//constructor of user controller
 	public UserController() {
-		System.out.println("in constructor of " + getClass());
+		log.info("in constructor of " + getClass());
 	}
 	
-	//Get all users
-	@GetMapping
-	public ResponseEntity<?> getAllUsers(){
-		List<User> users = userService.getAllUsers();
-		if (users.isEmpty()) 
-			return new ResponseEntity<>("user list is empty", HttpStatus.OK);
-		return new ResponseEntity<>(users,HttpStatus.OK);
-	}
+	
 	
 	//Get user by UserId
 	@GetMapping("/{id}")
@@ -69,7 +68,11 @@ public class UserController {
 //			user.setDocumentType(identityProofByUserId.getDocumentType());
 //			user.setUniqueIdNumber(identityProofByUserId.getUniqueIdNumber());
 //			user.setStatus(identityProofByUserId.getStatus());
+			
+			log.info("get user by user id "+identityProofByUserId);
+			if(identityProofByUserId!=null)
 			return ResponseEntity.ok(identityProofByUserId);
+			else throw new ResourceNotFoundException("user does not exist by id "+id);
 		} catch (RuntimeException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
@@ -96,17 +99,7 @@ public class UserController {
 	}
 	
 	
-	//delete user
-	@DeleteMapping("/{userid}")
-	public ResponseEntity<?> deleteUser(@PathVariable Long userid) {
-		try {
-			identityProofService.deleteIdentityProof(userid);
-			String string = userService.deleteUser(userid);
-			return ResponseEntity.ok(string);
-		} catch (RuntimeException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		}
-	}
+	
 	
 	
 	// add a method to upload a image on server side
@@ -124,5 +117,56 @@ public class UserController {
 		byte[] restoreImage = userService.restoreImage(id);
 		return new ResponseEntity<>(restoreImage,HttpStatus.OK);
 	}
+
+	
+	
+	
+	
+	@GetMapping("/bloodDonation/{id}")
+	public ResponseEntity<?> getBloodDonationById(@PathVariable Long id){
+		List<BloodDonation> allDonationByUser = bloodDonationService.getAllDonationByUser(id);
+		if(allDonationByUser!=null)
+		return new ResponseEntity<>(allDonationByUser,HttpStatus.FOUND);
+		else
+			return new ResponseEntity<>("no blood donation",HttpStatus.FOUND);
+	}
+	
+	
+	
+	
+	/*----------------------------------------------------------------------------------------------*/
+	/*______________________________________________________________________________________________*/
+	
+	
+	
+	
+//	{future scope---> which will be done by admin}
+	
+//	//delete user
+//		@DeleteMapping("/{userid}")
+//		public ResponseEntity<?> deleteUser(@PathVariable Long userid) {
+//			try {
+//				identityProofService.deleteIdentityProof(userid);
+//				String string = userService.deleteUser(userid);
+//				return ResponseEntity.ok(string);
+//			} catch (RuntimeException e) {
+//				return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+//			}
+//		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
+

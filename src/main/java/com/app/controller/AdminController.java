@@ -260,6 +260,24 @@ public class AdminController {
 	/*-----------------------------------------------------------------------------------------*/
 	
 	
+	
+	
+	
+	
+	
+	//Get all users{task of admin}
+	
+//	@GetMapping
+//	public ResponseEntity<?> getAllUsers(){
+//		List<User> users = userService.getAllUsers();
+//		if (users.isEmpty()) 
+//			return new ResponseEntity<>("user list is empty", HttpStatus.OK);
+//		return new ResponseEntity<>(users,HttpStatus.OK);
+//	}
+	
+	
+	
+	
 //	{future scope}
 	// get blood donation details by sample id
 //	@GetMapping("/getby_sampleId/{sampleId}")

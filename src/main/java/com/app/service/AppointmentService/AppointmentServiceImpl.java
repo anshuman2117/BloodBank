@@ -18,6 +18,7 @@ import com.app.dao.IBloodInventoryDao;
 import com.app.dao.IPatientDao;
 import com.app.dao.IUserDao;
 import com.app.dto.AppointmentDTO;
+import com.app.dto.SaveAppointmentDTO;
 import com.app.entities.Appointment;
 import com.app.entities.Patient;
 import com.app.entities.Status;
@@ -92,14 +93,14 @@ public class AppointmentServiceImpl implements IAppointmentService {
 		
 		
 		int updatedsts = 0;
-		log.warn("status-> " + status + "  appointment-> " + appointment.toString());
+		log.info("status-> " + status + "  appointment-> " + appointment.toString());
 		
 		String header = "YOUR APPOINTMENT  REQUEST  " + status;
-		log.warn("----header -->" + header);
+		log.info("----header -->" + header);
 		String messageBody ="";
 		if (addressDao.findUserAddress(appointment.getUser().getId()) != null) {
 			updatedsts = appointmentDao.updateAppointmentStatus(Status.valueOf(status), appointment.getId());
-			log.warn("----updatedsts--->  " +updatedsts );
+			log.info("----updatedsts--->  " +updatedsts );
 			
 			if (status.equalsIgnoreCase("APPROVED")) {
 				
@@ -107,11 +108,11 @@ public class AppointmentServiceImpl implements IAppointmentService {
 						appointment.getBagSize())<appointment.getBagQuantity()) {
 					return false;
 				}
-				log.warn("---reducing blood count---> " );
+				log.info("---reducing blood count---> " );
 				bloodInventoryDao.subBloodCount(appointment.getBagQuantity(), LocalDate.now(), appointment.getBagSize(),
 						appointment.getBloodGroup());
 				
-				log.warn("---inside mail sending condition checking ---> "  );
+				log.info("---inside mail sending condition checking ---> "  );
 				 header = "YOUR APPOINTMENT  REQUEST  " + status;
 				 messageBody = "hello <p><font color=blue>" + appointment.getUser().getFirstName() + "</font></p>"
 						+ " your scheduled appointment status has been <font color=blue>" + status
@@ -132,10 +133,10 @@ public class AppointmentServiceImpl implements IAppointmentService {
 						+ appointment.getAppointmentScheduleDate() + "</font><b></td>" + "</tr>"
 
 				;                          
-				 log.warn("----sending mail ---in approved condition-> " );
+				 log.info("----sending mail ---in approved condition-> " );
 				emailSendingService.sendEmail(appointment.getUser().getEmail(),messageBody,header );
 			} else {
-				 log.warn("----sending mail ---in rejected condition-> " );
+				 log.info("----sending mail ---in rejected condition-> " );
 				 messageBody = messageBody
 						+ " <font/> due to some reason .<p> <ul> unavaliability of blood</ul> "
 						+ "<ul> you may have not registered your address(please register your address)</ul> </p>";
@@ -161,30 +162,49 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	
 	// getting all the appointments created by a user 
 	@Override
-	public List<AppointmentDTO> getAppointmentByuserId(Long id) {
-		List<AppointmentDTO> list = appointmentDao.findByUserId(id).stream().map(i->mapper.map(i, AppointmentDTO.class))
-		.collect(Collectors.toList());
+	public List<Appointment> getAppointmentByuserId(Long id) {
+		log.info("in service method to get all appointment created by user ");
+		List<Appointment> list = appointmentDao.findByUserId(id);
+				/*.stream().map(i->mapper.map(i, AppointmentDTO.class))
+		           .collect(Collectors.toList());*/
 		return list;
 	}
 	
 	// creating a  new appointment
 	@Override
-	public Appointment saveAppointment(Long userid, Appointment appointment, Patient patient) {
+	public Appointment saveAppointment(Long userid, SaveAppointmentDTO appointment) {
 		Appointment appointment2;
-		Patient byName = patientDao.findByName(patient.getName());
-		if(byName!=null) {
-			appointment.setPatient(byName);
-			User user = userDao.findById(userid).orElseThrow(()->new ResourceNotFoundException("user does not have user id"+userid));
-			appointment.setUser(user); 
-			 appointment2 = appointmentDao.save(appointment);
+		Patient patient = patientDao.findByName(appointment.getName());
+		Appointment appointment3 = mapper.map(appointment, Appointment.class);
+		User user = userDao.findById(userid).orElseThrow(()->new ResourceNotFoundException("user does not have user id"+userid));
+		appointment3.setUser(user); 
+		appointment3.setAppointmentCreationDate(LocalDate.now());
+		appointment3.setAppointmentScheduleDate(appointment.getAppointmentScheduleDate());
+		appointment3.setCenter(appointment.getCenter());
+		appointment3.setBagSize(appointment.getBagSize());
+		appointment3.setBagQuantity(appointment.getBagQuantity());
+		appointment3.setStatus(Status.PENDING);
+		appointment3.setBloodGroup(appointment.getBloodGroup());
+		
+		if(patient!=null) {
+			appointment3.setPatient(patient);
+//			appointment3.setUser(user); 
+//			appointment3.setAppointmentCreationDate(LocalDate.now());
+//			appointment3.setAppointmentScheduleDate(appointment.getAppointmentScheduleDate());
+//			appointment3.setCenter(appointment.getCenter());
+//			appointment3.setBagSize(appointment.getBagSize());
+//			appointment3.setBagQuantity(appointment.getBagQuantity());
+//			appointment3.setStatus(Status.PENDING);
+//			appointment3.setBloodGroup(appointment.getBloodGroup());
+			 
+			appointment2 = appointmentDao.save(appointment3);
 			
 		}
 		else {
-			Patient save = patientDao.save(patient);
-			User user = userDao.findById(userid).orElseThrow(()->new ResourceNotFoundException("user does not have user id"+userid));
-			appointment.setUser(user); 
-			appointment.setPatient(save); 
-			 appointment2 = appointmentDao.save(appointment);
+			Patient save = patientDao.save(mapper.map(appointment, Patient.class));
+			appointment3.setPatient(save);
+//			appointment3.setUser(user); 
+			 appointment2 = appointmentDao.save(appointment3);
 		
 		}
 		return appointment2;

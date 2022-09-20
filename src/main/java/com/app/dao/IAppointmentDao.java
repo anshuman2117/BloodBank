@@ -31,7 +31,7 @@ public interface IAppointmentDao extends JpaRepository<Appointment,Long> {
 	@Query(value = "UPDATE Appointment a SET a.status =:sts where a.id=:id")
 	public int updateAppointmentStatus(@Param("sts") Status status,@Param("id") Long id);
 	
-	@Query(value = "select a from Appointment a where a.user.id=?1")
+	@Query(value = "select a from Appointment a inner join fetch a.user u inner join fetch a.patient where a.user.id=?1")
 	public List<Appointment> findByUserId(Long id);
 	
 	
