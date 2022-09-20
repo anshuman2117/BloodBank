@@ -2,9 +2,13 @@ package com.app.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,19 +19,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.app.dto.AppointmentDTO;
+import com.app.dto.BloodDonationDTO;
 import com.app.dto.UserDTO;
+import com.app.entities.Appointment;
 import com.app.entities.BloodDonation;
 import com.app.entities.BloodInventory;
+import com.app.entities.Event;
 import com.app.entities.IdentityProof;
 import com.app.entities.Status;
 import com.app.entities.User;
-import com.app.service.IBloodDonationService;
-import com.app.service.IBloodInventoryService;
-import com.app.service.IIdentityProofService;
-import com.app.service.IUserService;
+import com.app.service.AppointmentService.IAppointmentService;
+import com.app.service.BloodDonationService.IBloodDonationService;
+import com.app.service.BloodInventoryService.IBloodInventoryService;
+import com.app.service.EventService.IEventService;
+import com.app.service.IdentityproofService.IIdentityProofService;
+import com.app.service.UserService.IUserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/admin")
+@Slf4j
 public class AdminController {
 // dep:  for  user service i/f
 	@Autowired
@@ -41,47 +54,212 @@ public class AdminController {
 //    dep: blood inventory service i/f
 	@Autowired
 	private IBloodInventoryService inventoryService;
+//	dep:  appointment service i/f
+	@Autowired
+	private IAppointmentService appointmentService;
+//	dep:	event service i/f
+	@Autowired
+	private IEventService  eventService;
 
+	
+	
+	
+	
 	// Admin will create an user with verified status
-	@PostMapping("/add_donor_user")
+	@PostMapping("/user/add_donor_user")
 	public ResponseEntity<User> addUser(@RequestBody UserDTO userdto) {
-		System.out.println("---user dto---" + userdto);
+		log.info("---user dto---" + userdto);
 		return new ResponseEntity<>(userService.addUserByAdmin(userdto), HttpStatus.CREATED);
 	}
 
-	@GetMapping("/pendingIdStatus")
-	public ResponseEntity<?> getPendingIdStatus() {
-		return new ResponseEntity<>(idproofService.listPendingStatus(), HttpStatus.FOUND);
+	
+	
+	
+//	admin will create blood donation of a user
+	@PostMapping("/blooddonation/createBloodDonation/{id}")
+	public ResponseEntity<?> createBloodDonation(@PathVariable Long id, @RequestBody BloodDonationDTO blood) {
+    log.info("request for create blood donation of "+id+" req body "+blood);
+		return new ResponseEntity<>(donationService.createBloodDonation(id, blood), HttpStatus.CREATED);
 	}
 
-	@PutMapping("/updateIdVerification/{id}")
+	
+	
+	// controller to get all the pending appointments scheduled by users
+	@GetMapping("/appointment/pending")
+	public ResponseEntity<?> listPendingAppointments() {
+		List<AppointmentDTO > allAppointment = appointmentService.pendingAppointments();
+		log.info("request for list of all appointment");
+		if (!allAppointment.isEmpty())
+			return new ResponseEntity<>(allAppointment, HttpStatus.OK);
+		log.warn("no appointment found");
+		return new ResponseEntity<>("no appointments", HttpStatus.NOT_FOUND);
+	}
+
+	
+	
+	// controller to get list of all appointments(history and pending)
+			@GetMapping("/appointment/list_all_appointment")
+			public ResponseEntity<?> listAllAppointments() {
+				log.info("--------getting req. for listing all appointment ----------");
+				List<AppointmentDTO> allAppointment = appointmentService.getAllAppointment();
+				if (!allAppointment.isEmpty())
+					return new ResponseEntity<>(allAppointment, HttpStatus.OK);
+				return new ResponseEntity<>("no appointments", HttpStatus.OK);
+
+			}
+	
+	
+	
+	
+//			 controller to modify the status of the appointments
+			@PutMapping("/appointment/updateAppointmentsts")
+			public ResponseEntity<?> resolvePendingSts(@RequestParam String status, @RequestBody Appointment appointment) {
+				log.info("status:-> " + status + " appointment-> " + appointment.toString());
+				
+				if(appointmentService.updateAppointmentsStatus(status, appointment))
+				return new ResponseEntity<>(
+						/* appointmentService.appointmentById(appointment.getId()) */"appointment status updated",
+						HttpStatus.ACCEPTED);
+				else
+					return new ResponseEntity<>("could not be updated",HttpStatus.BAD_REQUEST);
+			}
+			
+			
+			
+	//will give list of all pending  id proof status
+	    @GetMapping("/identityproof/pendingIdStatus")
+	    public ResponseEntity<?> getPendingIdStatus() {
+	  	return new ResponseEntity<>(idproofService.listPendingStatus(), HttpStatus.FOUND);
+	     }
+  
+	
+	
+	// will update the identity  verification status
+	
+	@PutMapping("/identityproof/updateIdVerification/{id}")
 	public ResponseEntity<?> updateIdVerificationStatus(@PathVariable Long id,
 			@RequestParam String status /* @RequestBody IdentityProof id */ ) {
 		return ResponseEntity.ok(idproofService.updateIdStatus(Status.valueOf(status), id));
 	}
 
-	@GetMapping("/getAllDonation")
+	
+	// controller ot create a event
+	@PostMapping("/event/createEvent")
+	public ResponseEntity<?> createEvents(@RequestBody Event event){
+		Event returnEvent=eventService.createEvent(event);
+		if(returnEvent!=null)
+			return new ResponseEntity<Event>(returnEvent,HttpStatus.CREATED);
+		else
+			return new ResponseEntity<>(" event could not be created ",HttpStatus.FORBIDDEN);
+	}
+	
+	
+	
+	// controller to update an event
+	@PutMapping("/event/createEvent/{id}")
+	public ResponseEntity<?> updateEvents(@RequestBody Event event){
+		Event returnEvent=eventService.updateEvent(event);
+		if(returnEvent!=null)
+			return new ResponseEntity<Event>(returnEvent,HttpStatus.CREATED);
+		else
+			return new ResponseEntity<>(" event could not be created ",HttpStatus.FORBIDDEN);
+	}
+	
+	
+	// controller to enlist all the upcoming events
+	@GetMapping("/event/upcoming_events")
+	public ResponseEntity<?> displayAllUpcomingEvents(){
+		
+		List<Event> event = eventService.listUpcomingEvents();
+		if(event!=null)
+		return new ResponseEntity<List<Event>>(event,HttpStatus.ACCEPTED);
+		else
+		return new ResponseEntity<>("no event found",HttpStatus.NOT_FOUND);
+		}
+	
+	
+	
+	    @DeleteMapping("/event/delete/{id}")
+	    public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
+	     	eventService.deleteEvent(id);
+		  return new ResponseEntity<>("event deleted successfully ",HttpStatus.OK);
+	    }
+	
+	    
+	    
+	    
+	    
+	    
+	 // add a method to upload a event image on server side
+		@PostMapping("/event/{id}/image")
+		public  ResponseEntity<?> uploadImage(@PathVariable Long id,@RequestParam MultipartFile imageFile ){
+		log.info("getting req. for event image upload  ");
+			return new  ResponseEntity<>(eventService.storeImage(id, imageFile),HttpStatus.CREATED);
+		}
+		
+		
+		// add req method to to download event image for specific request
+		
+		@GetMapping(value="/event/{id}/image",produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE})
+		public ResponseEntity<?> restoreImage(@PathVariable Long id){
+			log.info("getting req. for event image download  ");
+			
+			byte[] restoreImage = eventService.restoreImage(id);
+			return new ResponseEntity<>(restoreImage,HttpStatus.OK);
+		}
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	
+	
+	
+	
+	
+	@GetMapping("/blooddonation/getAllDonation")
 	public ResponseEntity<List<BloodDonation>> getAllDonation() {
 		List<BloodDonation> donation = donationService.getAllDonation();
 		return new ResponseEntity<>(donation, HttpStatus.OK);
 	}
 
-	@PostMapping("/create_donation")
-	public ResponseEntity<?> createBloodDonation(@RequestBody BloodDonation blood) {
-
-		return new ResponseEntity<>(donationService.createBloodDonation(blood), HttpStatus.CREATED);
-	}
-
+	
+	
+	
+	
+	
 	// add blood in blood inventory
-	@PutMapping("/addblood")
+	@PutMapping("/bloodinventory/addblood")
 	public ResponseEntity<?> addBloodStock(@RequestBody BloodInventory inventory) {
 
-		inventoryService.addBloodInventory(inventory.getBagQuantity(), inventory.getBagSize(),
-				inventory.getBloodGroup());
-
-		return new ResponseEntity<>("stock updated", HttpStatus.CREATED);
+		return new ResponseEntity<>(inventoryService.addBloodInventory(inventory), HttpStatus.CREATED);
 	}
 
+	
+	
+	
+	
+	
+	// get blood stock blood inventory
+	@GetMapping("/bloodinventory/getblood")
+	public ResponseEntity<?> getBloodStock() {
+
+		return new ResponseEntity<>(inventoryService.getBloodStock(), HttpStatus.OK);
+	}
+
+	
+	
+	
+
+
+	
+	
+	/*_________________________________________________________________________________________*/
+	/*-----------------------------------------------------------------------------------------*/
+	
+	
 //	{future scope}
 	// get blood donation details by sample id
 //	@GetMapping("/getby_sampleId/{sampleId}")
@@ -91,11 +269,21 @@ public class AdminController {
 //		return ResponseEntity.ok(donationService.fetchBySampleId(sampleId));
 //	}
 
-	// image storing of events method
-//	@PostMapping("/{id}/event_image")
-//	public  ResponseEntity<User> uploadImage(@PathVariable Long id,@RequestParam MultipartFile imageFile ){
-//	
-//		return new  ResponseEntity<>(imageHandlingService.storeImage(id, imageFile),HttpStatus.CREATED);
-//	}
 
+
+	
+	
+//	 request for getting all the event (can be used as history)
+	
+	
+//	@GetMapping("/all_events")
+//	public ResponseEntity<?>  displayAllEvent(){
+//		List<Event> event = eventService.listAllEvent();
+//		if(event!=null)
+//		return new ResponseEntity<List<Event>>(event,HttpStatus.ACCEPTED);
+//		else
+//		return new ResponseEntity<>("no event found",HttpStatus.NOT_FOUND);
+//		}
+	
+	
 }

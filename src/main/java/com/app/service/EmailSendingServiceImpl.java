@@ -12,12 +12,18 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class EmailSendingServiceImpl implements IEmailSendingService {
 
 	@Override
 	public void sendEmail(String to, String messageBody, String subject) {
-	
+		 log.warn("----sending mail ---in mail sending method----> " );
+		 log.warn("----sending mail ---see mesg body-> "+messageBody );
+		 log.warn("----sending mail ---send mail to --> "+to );
+		 log.warn("----sending mail ---subject--> "+subject );
 		String from="ebankservices5@gmail.com";
   
 		// need of this method is to set the properties in this  class
@@ -36,7 +42,7 @@ public class EmailSendingServiceImpl implements IEmailSendingService {
 		});
 		
 		// used to debug smtp issues
-		session.setDebug(true);
+//		session.setDebug(true);
 		
 		try {
 			

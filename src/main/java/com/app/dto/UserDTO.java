@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -40,7 +39,7 @@ public class UserDTO {
 	@JsonProperty(access = Access.WRITE_ONLY) // for de-serial only
 	private String password;
 	
-//	@Digits(message = "Number should contain 10 digits.", fraction = 0, integer = 10)
+	@Digits(message = "Number should contain 10 digits.", fraction = 0, integer = 10)
 	private String contactNo;
 	
 	@NumberFormat
@@ -49,7 +48,7 @@ public class UserDTO {
 	@NotBlank
 	private Gender gender;
 	
-//	@JsonProperty(access = Access.READ_ONLY)
+	@JsonProperty(access = Access.READ_ONLY)
 	private String image;//serialisation only
 	
 	private DocumentType documentType;

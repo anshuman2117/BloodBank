@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.AddressDTO;
 import com.app.entities.Address;
-import com.app.service.IAddressService;
+import com.app.service.AddressService.IAddressService;
 
 @RestController
 @RequestMapping("/address")

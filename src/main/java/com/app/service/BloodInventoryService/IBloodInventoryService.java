@@ -1,4 +1,4 @@
-package com.app.service;
+package com.app.service.BloodInventoryService;
 
 
 import java.util.List;
@@ -15,6 +15,13 @@ public interface IBloodInventoryService {
 	
 	int subBloodInventory(int quantity,int bagSize,BloodGroup bloodGroup);
 	
-	List<BloodInventory> listBloodInventory();  
+// method to list the blood stock of blood bank
+	List<BloodInventory> getBloodStock();  
+	
+	
+	//method to find the blood inventory stock detail by giving  blood group and bagSize
+	int findByBloodGroupAndBagSize(BloodGroup bloodGroup,int bag);
+
+	BloodInventory addBloodInventory(BloodInventory inventory);
 	
 }

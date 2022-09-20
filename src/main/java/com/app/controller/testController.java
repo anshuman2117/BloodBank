@@ -17,9 +17,9 @@ import com.app.dao.IIdentityProofDao;
 import com.app.entities.Appointment;
 import com.app.entities.DocumentType;
 import com.app.entities.User;
-import com.app.service.IAppointmentService;
-import com.app.service.IIdentityProofService;
-import com.app.service.IUserService;
+import com.app.service.AppointmentService.IAppointmentService;
+import com.app.service.IdentityproofService.IIdentityProofService;
+import com.app.service.UserService.IUserService;
 
 @RestController
 @RequestMapping("/test")

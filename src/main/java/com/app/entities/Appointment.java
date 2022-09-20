@@ -65,11 +65,11 @@ public class Appointment extends BaseEntity{
 	@Column(length = 10)
 	private BloodGroup bloodGroup;
 
-	public Appointment( LocalDate appointmentCreationDate, LocalDate appointmentScheduleDate, Center center,
+	public Appointment( LocalDate appointmentScheduleDate, Center center,
 			int bagSize, int bagQuantity,Patient patient,BloodGroup bloodGroup) {
 		super();
 //		this.user = user;
-		this.appointmentCreationDate = appointmentCreationDate;
+		this.appointmentCreationDate =LocalDate.now();
 		this.appointmentScheduleDate = appointmentScheduleDate;
 		this.center = center;
 		this.bagSize = bagSize;

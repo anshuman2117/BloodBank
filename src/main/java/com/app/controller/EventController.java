@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.entities.Event;
-import com.app.service.IEventService;
+import com.app.service.EventService.IEventService;
 
 @RestController
 @RequestMapping("/api/events")
@@ -28,14 +28,7 @@ public class EventController {
 	public EventController(){
 		System.out.println(" in the controller of-> "+getClass());
 	}
-	@GetMapping("/all_events")
-	public ResponseEntity<?>  displayAllEvent(){
-		List<Event> event = eventService.listAllEvent();
-		if(event!=null)
-		return new ResponseEntity<List<Event>>(event,HttpStatus.ACCEPTED);
-		else
-		return new ResponseEntity<>("no event found",HttpStatus.NOT_FOUND);
-		}
+	
 
 	@GetMapping("/upcoming_events")
 	public ResponseEntity<?> displayAllUpcomingEvents(){
@@ -47,28 +40,40 @@ public class EventController {
 		return new ResponseEntity<>("no event found",HttpStatus.NOT_FOUND);
 		}
 	
-	@PostMapping("/createEvent")
-	public ResponseEntity<?> createEvents(@RequestBody Event event){
-		Event returnEvent=eventService.createEvent(event);
-		if(returnEvent!=null)
-			return new ResponseEntity<Event>(returnEvent,HttpStatus.CREATED);
-		else
-			return new ResponseEntity<>(" event could not be created ",HttpStatus.FORBIDDEN);
-	}
+//	@PostMapping("/createEvent")
+//	public ResponseEntity<?> createEvents(@RequestBody Event event){
+//		Event returnEvent=eventService.createEvent(event);
+//		if(returnEvent!=null)
+//			return new ResponseEntity<Event>(returnEvent,HttpStatus.CREATED);
+//		else
+//			return new ResponseEntity<>(" event could not be created ",HttpStatus.FORBIDDEN);
+//	}
 	
 	
-	@PutMapping("/createEvent/{id}")
-	public ResponseEntity<?> updateEvents(@RequestBody Event event){
-		Event returnEvent=eventService.updateEvent(event);
-		if(returnEvent!=null)
-			return new ResponseEntity<Event>(returnEvent,HttpStatus.CREATED);
-		else
-			return new ResponseEntity<>(" event could not be created ",HttpStatus.FORBIDDEN);
-	}
+//	@PutMapping("/createEvent/{id}")
+//	public ResponseEntity<?> updateEvents(@RequestBody Event event){
+//		Event returnEvent=eventService.updateEvent(event);
+//		if(returnEvent!=null)
+//			return new ResponseEntity<Event>(returnEvent,HttpStatus.CREATED);
+//		else
+//			return new ResponseEntity<>(" event could not be created ",HttpStatus.FORBIDDEN);
+//	}
 	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
 		eventService.deleteEvent(id);
 		return new ResponseEntity<>("event deleted successfully ",HttpStatus.OK);
 	}
+	
+	
+	
+	
+	
+	
+	
+	/*_________________________________________________________________________________*/
+	/* ------------------------------------------------------------------------------ */	
+	//controller to enlist all the events(can be used for history)->(future scope)
+	
+	
 }

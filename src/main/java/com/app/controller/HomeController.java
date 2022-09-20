@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.UserLogInDTO;
 import com.app.entities.User;
-import com.app.service.IUserService;
+import com.app.service.UserService.IUserService;
 
 @RestController
 @RequestMapping("/api/bloodbank")

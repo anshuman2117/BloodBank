@@ -1,13 +1,14 @@
-package com.app.service;
+package com.app.service.BloodDonationService;
 
 import java.util.List;
 
+import com.app.dto.BloodDonationDTO;
 import com.app.entities.BloodDonation;
 
 public interface IBloodDonationService {
 
 	// create a new blood donation
-	BloodDonation createBloodDonation(BloodDonation donation);
+	BloodDonationDTO createBloodDonation(Long id,BloodDonationDTO donation);
 
 	//  Getting all the blood donation   (for admin)
     List<BloodDonation> getAllDonation();

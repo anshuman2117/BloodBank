@@ -18,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 /*
 +------------------+-------------------------------------------------+------+-----+---------+----------------+
@@ -33,6 +34,7 @@ import lombok.ToString;
 | Creation_date    | date                                            | NO   |     | NULL    |                |
 +------------------+-------------------------------------------------+------+-----+---------+----------------+
 */
+@Slf4j
 @Entity
 @Getter
 @Setter
@@ -45,7 +47,7 @@ public class BloodDonation extends BaseEntity {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	@Column(name = "blood_sample_id",length = 12,unique = true)
+	@Column(name = "blood_sample_id",length = 50,unique = true)
 	private String bloodSampleId;
 	
 	@Column(name = "blood_group",length = 15)
@@ -66,17 +68,20 @@ public class BloodDonation extends BaseEntity {
 	@Column(name = "creation_date")
 	private LocalDate creationDate;
 
-	public BloodDonation(User user, String blood_sample_id, BloodGroup bloodGroup, int bagSize, int bagQuantity,
-			LocalDate date_of_donation, LocalDate creation_date) {
+	public BloodDonation(User user, BloodGroup bloodGroup, int bagSize, int bagQuantity
+			) {
 		super();
+		log.info("in the parameterise ctor of blood doantion ");
 		this.user = user;
-		this.bloodSampleId = blood_sample_id;
+		this.bloodSampleId = bloodGroup.toString()+""+user.getId();
 		this.bloodGroup = bloodGroup;
 		this.bagSize = bagSize;
 		this.bagQuantity = bagQuantity;
-		this.dateOfDonation = date_of_donation;
-		this.creationDate = creation_date;
+		this.dateOfDonation = LocalDate.now();
+		this.creationDate = LocalDate.now();
 	}
+
+	
 	
 	
 }

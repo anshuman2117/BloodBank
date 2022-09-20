@@ -18,40 +18,75 @@ import org.springframework.web.multipart.MultipartFile;
 import com.app.dao.IUserDao;
 import com.app.entities.User;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
-@Transactional
+@Slf4j
 public class ImageHandlingServiceImpl implements ImageHandlingService {
 
-	@Value("${file.upload.location}")
-	private String baseFolder;
-	@Autowired
-	private IUserDao userDao;
+	
+//	@Autowired
+//	private IUserDao userDao;
 
+//	@Override
+//	public User storeImage(Long id, MultipartFile imageFile) {
+//		// get user detail by id
+//		User findById = userDao.findById(id).orElseThrow(() -> new RuntimeException("------user not found-----"));
+//		String completePath = baseFolder + File.separator + findById.getFirstName() + findById.getId()+".jpg";
+//		try {
+//			Files.copy(imageFile.getInputStream(), Paths.get(completePath), StandardCopyOption.REPLACE_EXISTING);
+//			findById.setImage(completePath);
+//			return userDao.save(findById);
+//		} catch (Exception e) {
+//			throw new RuntimeException();
+//		}
+//	}
+	
+	
 	@Override
-	public User storeImage(Long id, MultipartFile imageFile) {
+	public void uploadImage(String completePath, MultipartFile imageFile) {
+		log.info("--in image handling services:->  complete path--> "+completePath);
+		
+		
 		// get user detail by id
-		User findById = userDao.findById(id).orElseThrow(() -> new RuntimeException("------user not found-----"));
-		String completePath = baseFolder + File.separator + findById.getFirstName() + findById.getId()+".jpg";
+//		User findById = userDao.findById(id).orElseThrow(() -> new RuntimeException("------user not found-----"));
+//		String completePath = baseFolder + File.separator + findById.getFirstName() + findById.getId()+".jpg";
 		try {
 			Files.copy(imageFile.getInputStream(), Paths.get(completePath), StandardCopyOption.REPLACE_EXISTING);
-			findById.setImage(completePath);
-			return userDao.save(findById);
+//			findById.setImage(completePath);
+//			return userDao.save(findById);
 		} catch (Exception e) {
 			throw new RuntimeException();
 		}
 	}
+	
+	
 
-	public byte[] restoreImage(Long id)   {
+//	public byte[] restoreImage(Long id)   {
+//		// get user detail by id
+//				User findById = userDao.findById(id).orElseThrow(() -> new RuntimeException("------user not found-----"));
+//			String fullpath=findById.getImage();
+//			
+//				try {
+//					return	Files.readAllBytes(Paths.get(fullpath));
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			return null;
+//	}
+	public byte[] downlaodImage(String fullpath)   {
 		// get user detail by id
-				User findById = userDao.findById(id).orElseThrow(() -> new RuntimeException("------user not found-----"));
-			String fullpath=findById.getImage();
-			
-				try {
-					return	Files.readAllBytes(Paths.get(fullpath));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+//		User findById = userDao.findById(id).orElseThrow(() -> new RuntimeException("------user not found-----"));
+//		String fullpath=findById.getImage();
+		
+		try {
+			return	Files.readAllBytes(Paths.get(fullpath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return null;
+		}
+		
 	}
 }

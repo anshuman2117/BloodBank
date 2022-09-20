@@ -1,4 +1,4 @@
-package com.app.service;
+package com.app.service.AddressService;
 
 import java.util.List;
 

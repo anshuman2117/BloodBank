@@ -1,24 +1,36 @@
-package com.app.service;
+package com.app.service.UserService;
 
+import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.app.custom_excpetions.ResourceNotFoundException;
 import com.app.dao.IUserDao;
 import com.app.dto.UserDTO;
 import com.app.entities.Gender;
 import com.app.entities.IdentityProof;
+import com.app.entities.Role;
 import com.app.entities.Status;
 import com.app.entities.User;
+import com.app.service.IEmailSendingService;
+import com.app.service.ImageHandlingService;
+import com.app.service.IdentityproofService.IIdentityProofService;
 
 @Service
 @Transactional
 public class UserServiceImpl implements IUserService {
-
+	@Value("${file.upload.location}")
+	private String baseFolder;
 	
 	@Autowired
 	private IUserDao userDao;
@@ -32,9 +44,22 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private ImageHandlingService imageHandlingService;
+	
+	
+	
+	
 	@Override
 	public List<User> getAllUsers() {
-		return userDao.findAll();
+		
+		// in case of pagination we can apply pagination
+//		int pagesize=5;
+//		int pageno=2;
+//		Pageable p=PageRequest.of(pageno, pagesize);// in case of sorting also(sortby use overloaded method)
+//		Page<User> page = userDao.findAll(p);
+//		List<User> content = page.getContent();
+		return userDao.findByRole(Role.USER);
 	}
 	
 	
@@ -147,6 +172,28 @@ System.out.println("user--->   "+user);
 	
 
 
+	@Override
+	public User storeImage(Long id, MultipartFile imageFile) {
+		User findById = userDao.findById(id).orElseThrow(()->new ResourceNotFoundException("used does not exists!!!"));
+		
+		String completePath=baseFolder+File.separator+findById.getFirstName()+findById.getId()+".jpeg";
+		imageHandlingService.uploadImage(completePath, imageFile);
+		findById.setImage(completePath);
+		return userDao.save(findById);
+	}
+
+
+	
+
+	@Override
+	public byte[] restoreImage(Long id) {
+		User user = userDao.findById(id).orElseThrow(()->new ResourceNotFoundException("user does not exist!! "));
+		
+        String completePath = user.getImage();
+		
+		return imageHandlingService.downlaodImage(completePath);
+	}
+	
 	
 
 }

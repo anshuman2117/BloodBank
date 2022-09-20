@@ -9,7 +9,13 @@ import com.app.entities.User;
 public interface ImageHandlingService {
 	
 	
-User storeImage(Long id, MultipartFile imageFile);
+void uploadImage(String path, MultipartFile imageFile);
 
- byte[] restoreImage(Long id);
+ byte[] downlaodImage(String path);
+
+
+
+//User storeImage(Long id, MultipartFile imageFile);
+//
+//byte[] restoreImage(Long id);
 }

@@ -45,13 +45,13 @@ public class AppointmentDTO {
 	@JsonProperty(access = Access.READ_ONLY)
 	private Status status;
 	
+	private BloodGroup bloodGroup;
+	
 	
 	private Patient patient;
-//	@NotNull
-//	private Long patient_id;
+
 	
 	
 	
-	private BloodGroup bloodGroup;
 //	private 
 }

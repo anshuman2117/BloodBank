@@ -37,7 +37,7 @@ import lombok.ToString;
 @Table(name = "identity_proofs")
 public class IdentityProof extends BaseEntity{
 	
-	@JoinColumn(name = "user_id"/* ,updatable = false */)
+	@JoinColumn(name = "user_id",unique = true/* ,updatable = false */)
 	@OneToOne
 //	@Cascade(CascadeType.ALL)
 	

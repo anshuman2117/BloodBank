@@ -1,6 +1,8 @@
-package com.app.service;
+package com.app.service.UserService;
 
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.UserDTO;
 import com.app.entities.User;
@@ -25,4 +27,8 @@ public interface IUserService {
 	
 //	  to delete the user
 	public String deleteUser(Long id);
+
+	public byte[] restoreImage(Long id);
+
+	public User storeImage(Long id, MultipartFile imageFile);
 }

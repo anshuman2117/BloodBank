@@ -1,4 +1,4 @@
-package com.app.service;
+package com.app.service.BloodInventoryService;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,8 +11,11 @@ import com.app.dao.IBloodInventoryDao;
 import com.app.entities.BloodGroup;
 import com.app.entities.BloodInventory;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Transactional
+@Slf4j
 public class BloodInventoryServiceImpl implements IBloodInventoryService {
 
 	@Autowired
@@ -30,9 +33,24 @@ public class BloodInventoryServiceImpl implements IBloodInventoryService {
 	}
 
 	@Override
-	public List<BloodInventory> listBloodInventory() {
-		
+	public int findByBloodGroupAndBagSize(BloodGroup bloodGroup, int bag) {
+		BloodInventory groupAndBagSize = bloodInventoryDao.findByBloodGroupAndBagSize(bloodGroup, bag);
+		return groupAndBagSize.getBagQuantity();
+	}
+
+	
+//     method to fetch the blood stock of blood inventory
+	@Override
+	public List<BloodInventory> getBloodStock() {
+		// TODO Auto-generated method stub
 		return bloodInventoryDao.findAll();
 	}
 
+	@Override
+	public BloodInventory addBloodInventory(BloodInventory inventory) {
+		   this.addBloodInventory(inventory.getBagQuantity(), inventory.getBagSize(), inventory.getBloodGroup());
+		return bloodInventoryDao.findByBloodGroupAndBagSize(inventory.getBloodGroup(), inventory.getBagSize());
+	}
+
+	
 }

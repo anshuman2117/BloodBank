@@ -14,6 +14,12 @@ public class BloodBankApplication implements CommandLineRunner {
 
 	@Value("${file.upload.location}")// annotation to inject the value of SpEL expression into field
 	private String folderName;
+	
+	
+	@Value("${file.upload.location2}")// annotation to inject the value of SpEL expression into field
+	private String folderName2;
+	
+	
 	public static void main(String[] args) {
 		SpringApplication.run(BloodBankApplication.class, args);
 	}
@@ -30,9 +36,14 @@ public class BloodBankApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// create image folder if it does not exist
 		File dir=new File(folderName);
+		File dir2=new File(folderName2);
 		if(!dir.exists()) {
 			// mkdir create the  folder but mkdirs creates the whole path and folder
 			dir.mkdirs();
+		}
+		if(!dir2.exists()) {
+			// mkdir create the  folder but mkdirs creates the whole path and folder
+			dir2.mkdirs();
 		}
 		
 	}

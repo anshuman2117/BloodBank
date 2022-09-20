@@ -23,10 +23,10 @@ import com.app.dto.UserDTO;
 import com.app.entities.IdentityProof;
 import com.app.entities.Status;
 import com.app.entities.User;
-import com.app.service.IIdentityProofService;
-import com.app.service.IUserService;
-import com.app.service.IdentityProofServiceImpl;
 import com.app.service.ImageHandlingService;
+import com.app.service.IdentityproofService.IIdentityProofService;
+import com.app.service.IdentityproofService.IdentityProofServiceImpl;
+import com.app.service.UserService.IUserService;
 
 @RestController
 @RequestMapping("/users")
@@ -113,7 +113,7 @@ public class UserController {
 	@PostMapping("/{id}/image")
 	public  ResponseEntity<User> uploadImage(@PathVariable Long id,@RequestParam MultipartFile imageFile ){
 	
-		return new  ResponseEntity<>(imageHandlingService.storeImage(id, imageFile),HttpStatus.CREATED);
+		return new  ResponseEntity<>(userService.storeImage(id, imageFile),HttpStatus.CREATED);
 	}
 	
 	
@@ -121,7 +121,7 @@ public class UserController {
 	
 	@GetMapping(value="/{id}/image",produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE})
 	public ResponseEntity<?> restoreImage(@PathVariable Long id){
-		byte[] restoreImage = imageHandlingService.restoreImage(id);
+		byte[] restoreImage = userService.restoreImage(id);
 		return new ResponseEntity<>(restoreImage,HttpStatus.OK);
 	}
 	

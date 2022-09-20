@@ -19,4 +19,9 @@ public interface IBloodInventoryDao extends JpaRepository<BloodInventory, Long> 
 	@Modifying
 	@Query(value = "Update BloodInventory b set b.bagQuantity=b.bagQuantity-?1,b.lastUpdatedDate=?2 where b.bagSize=?3 and b.bloodGroup=?4")
 	  int subBloodCount(int quantity,LocalDate lastUpdatedDate,int bagSize,BloodGroup bloodGroup);
+	
+	
+BloodInventory	findByBloodGroupAndBagSize(BloodGroup bloodGroup,int bagSize);
+	
+	
 }

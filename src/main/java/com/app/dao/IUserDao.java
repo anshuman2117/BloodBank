@@ -2,16 +2,21 @@ package com.app.dao;
 
 
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.app.dto.UserDTO;
 import com.app.entities.Gender;
+import com.app.entities.Role;
 import com.app.entities.User;
 
 public interface IUserDao extends JpaRepository<User, Long>{
 
+	
+	public List<User> findByRole(Role role);
 	
  // to get the user details by email and password
     public  User findByEmailAndPassword(String email,String password);
