@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +48,8 @@ public class UserServiceImpl implements IUserService {
 	@Autowired
 	private ImageHandlingService imageHandlingService;
 	
-	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	
 	@Override
@@ -59,7 +61,7 @@ public class UserServiceImpl implements IUserService {
 //		Pageable p=PageRequest.of(pageno, pagesize);// in case of sorting also(sortby use overloaded method)
 //		Page<User> page = userDao.findAll(p);
 //		List<User> content = page.getContent();
-		return userDao.findByRole(Role.USER);
+		return userDao.findByRole(Role.ROLE_USER);
 	}
 	
 	
@@ -81,6 +83,7 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public UserDTO addUser(UserDTO userdto) {
 		User user=modelMapper.map(userdto, User.class);  // Mapping userdto to user
+		user.setPassword(encoder.encode(user.getPassword()));
 		User user1 = userDao.save(user);
 		IdentityProof identityProof=modelMapper.map(userdto, IdentityProof.class);
 		identityProof.setUser(user1);

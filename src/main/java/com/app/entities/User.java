@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -56,8 +57,9 @@ public class User extends BaseEntity {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(length = 10)
-	@NotNull
-	private Role role=Role.USER;
+	
+	
+	private Role role=Role.ROLE_USER;
 	
 //	public User() {
 //		this.role=Role.USER;
