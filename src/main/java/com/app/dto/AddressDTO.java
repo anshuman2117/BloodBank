@@ -19,6 +19,7 @@ public class AddressDTO {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private User user;
 	
+	@JsonProperty(access = Access.READ_ONLY)
 	private Long id;
 	
 	private String city;

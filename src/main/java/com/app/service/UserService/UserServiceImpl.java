@@ -82,24 +82,33 @@ public class UserServiceImpl implements IUserService {
 	
 	@Override
 	public UserDTO addUser(UserDTO userdto) {
-		User user=modelMapper.map(userdto, User.class);  // Mapping userdto to user
-		user.setPassword(encoder.encode(user.getPassword()));
-		User user1 = userDao.save(user);
-		IdentityProof identityProof=modelMapper.map(userdto, IdentityProof.class);
-		identityProof.setUser(user1);
-		IdentityProof proof = proofService.saveIdentityProof(identityProof);
-		UserDTO userDtoReturn= modelMapper.map(user1, UserDTO.class);              //mapping return user data to user dto
-		userDtoReturn.setUniqueIdNumber(proof.getUniqueIdNumber());                // setting id number with userdto
-		userDtoReturn.setDocumentType(proof.getDocumentType());  
 		
-		if(user1!=null && proof!=null) {
-			String messageBody="Thankyou <h3> "+user1.getFirstName()+" </h3> for registering with us"
-					+ "from the given link you can directly visit to us:<a href='www.bloodForLives.com'>OBBMS</a>";
-			String header="Welcome "+user1.getFirstName()+"!!!";
-			emailSendingService.sendEmail(user1.getEmail(), messageBody, header);
+		if(userDao.findByEmail(userdto.getEmail())!=null) {
+			return null;
+		}
+		else
+		{
+			User user=modelMapper.map(userdto, User.class);  // Mapping userdto to user
+			user.setPassword(encoder.encode(user.getPassword()));
+			User user1 = userDao.save(user);
+			IdentityProof identityProof=modelMapper.map(userdto, IdentityProof.class);
+			identityProof.setUser(user1);
+			IdentityProof proof = proofService.saveIdentityProof(identityProof);
+			UserDTO userDtoReturn= modelMapper.map(user1, UserDTO.class);              //mapping return user data to user dto
+			userDtoReturn.setUniqueIdNumber(proof.getUniqueIdNumber());                // setting id number with userdto
+			userDtoReturn.setDocumentType(proof.getDocumentType());  
+			
+			if(user1!=null && proof!=null) {
+				String messageBody="Thankyou <h3> "+user1.getFirstName()+" </h3> for registering with us"
+						+ "from the given link you can directly visit to us:<a href='www.bloodForLives.com'>OBBMS</a>";
+				String header="Welcome "+user1.getFirstName()+"!!!";
+				emailSendingService.sendEmail(user1.getEmail(), messageBody, header);
+			}
+			
+			return userDtoReturn;
 		}
 		
-		return userDtoReturn;
+		
 	}
 	
 	
