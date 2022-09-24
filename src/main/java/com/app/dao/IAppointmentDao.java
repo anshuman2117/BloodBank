@@ -16,7 +16,8 @@ public interface IAppointmentDao extends JpaRepository<Appointment,Long> {
 	
 	// method to get the current status of  scheduled appointment status of users
 	@Query("select a from Appointment a inner join fetch a.patient p inner join fetch a.user u where a.status =?1")
-//	@Query("select a from Appointment a  inner join fetch a.user u where a.status =?1")
+//	@Query(value="select a from Appointment a  inner join fetch a.user u where a.status =?1")
+	
 	List<Appointment> findByStatus(Status status);
 //	@Query("select a from Appointment a where a.status ='PENDING'")
 //	public List<Appointment>  getPendingAppointment();

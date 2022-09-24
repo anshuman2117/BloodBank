@@ -41,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000")
 @Slf4j
 public class AdminController {
 // dep:  for  user service i/f
@@ -93,8 +93,10 @@ public class AdminController {
 		log.info("request for list of all appointment");
 		if (!allAppointment.isEmpty())
 			return new ResponseEntity<>(allAppointment, HttpStatus.OK);
-		log.warn("no appointment found");
+		else {
+		log.info("no appointment found");
 		return new ResponseEntity<>("no appointments", HttpStatus.NOT_FOUND);
+		}
 	}
 
 	
