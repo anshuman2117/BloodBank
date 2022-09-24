@@ -98,12 +98,14 @@ public class UserServiceImpl implements IUserService {
 			userDtoReturn.setUniqueIdNumber(proof.getUniqueIdNumber());                // setting id number with userdto
 			userDtoReturn.setDocumentType(proof.getDocumentType());  
 			
-			if(user1!=null && proof!=null) {
-				String messageBody="Thankyou <h3> "+user1.getFirstName()+" </h3> for registering with us"
-						+ "from the given link you can directly visit to us:<a href='www.bloodForLives.com'>OBBMS</a>";
-				String header="Welcome "+user1.getFirstName()+"!!!";
-				emailSendingService.sendEmail(user1.getEmail(), messageBody, header);
-			}
+			/*
+			 * if(user1!=null && proof!=null) { String
+			 * messageBody="Thankyou <h3> "+user1.getFirstName()
+			 * +" </h3> for registering with us" +
+			 * "from the given link you can directly visit to us:<a href='www.bloodForLives.com'>OBBMS</a>"
+			 * ; String header="Welcome "+user1.getFirstName()+"!!!";
+			 * emailSendingService.sendEmail(user1.getEmail(), messageBody, header); }
+			 */
 			
 			return userDtoReturn;
 		}
