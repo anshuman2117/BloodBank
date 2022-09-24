@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 @Slf4j
 public class AdminController {
 // dep:  for  user service i/f
@@ -134,7 +134,7 @@ public class AdminController {
 	//will give list of all pending  id proof status
 	    @GetMapping("/identityproof/pendingIdStatus")
 	    public ResponseEntity<?> getPendingIdStatus() {
-	  	return new ResponseEntity<>(idproofService.listPendingStatus(), HttpStatus.FOUND);
+	  	return new ResponseEntity<>(idproofService.listPendingStatus(), HttpStatus.OK);
 	     }
   
 	
