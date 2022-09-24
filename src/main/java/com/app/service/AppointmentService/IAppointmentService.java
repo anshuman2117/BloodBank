@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.app.dto.AppointmentDTO;
 import com.app.dto.SaveAppointmentDTO;
+import com.app.dto.UpdateAppointmentDTO;
 import com.app.entities.Appointment;
 import com.app.entities.Patient;
 import com.app.entities.Status;
@@ -25,7 +26,7 @@ public interface IAppointmentService {
 	 Appointment saveAppointment(Long userId, SaveAppointmentDTO appointment);
 
 //	to approve the  appointments
-	public boolean updateAppointmentsStatus(String status, Appointment appointment);
+	public boolean updateAppointmentsStatus(UpdateAppointmentDTO appointment);
 	
 //    Appointment appointmentById(Long id);
 

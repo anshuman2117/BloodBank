@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.AppointmentDTO;
 import com.app.dto.BloodDonationDTO;
+import com.app.dto.UpdateAppointmentDTO;
 import com.app.dto.UserDTO;
 import com.app.entities.Appointment;
 import com.app.entities.BloodDonation;
@@ -117,15 +118,15 @@ public class AdminController {
 	
 //			 controller to modify the status of the appointments
 			@PutMapping("/appointment/updateAppointmentsts")
-			public ResponseEntity<?> resolvePendingSts(@RequestParam String status, @RequestBody Appointment appointment) {
-				log.info("status:-> " + status + " appointment-> " + appointment.toString());
+			public ResponseEntity<?> resolvePendingSts( @RequestBody UpdateAppointmentDTO appointment) {
+				log.info(" appointment-> " + appointment.toString());
 				
-				if(appointmentService.updateAppointmentsStatus(status, appointment))
+				if(appointmentService.updateAppointmentsStatus( appointment))
 				return new ResponseEntity<>(
-						/* appointmentService.appointmentById(appointment.getId()) */"appointment status updated",
+						/* appointmentService.appointmentById(appointment.getId()) */new String("appointment status updated"),
 						HttpStatus.ACCEPTED);
 				else
-					return new ResponseEntity<>("could not be updated",HttpStatus.BAD_REQUEST);
+					return new ResponseEntity<>(new String("could not be updated"),HttpStatus.BAD_REQUEST);
 			}
 			
 			

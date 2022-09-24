@@ -19,6 +19,7 @@ import com.app.dao.IPatientDao;
 import com.app.dao.IUserDao;
 import com.app.dto.AppointmentDTO;
 import com.app.dto.SaveAppointmentDTO;
+import com.app.dto.UpdateAppointmentDTO;
 import com.app.entities.Appointment;
 import com.app.entities.Patient;
 import com.app.entities.Status;
@@ -89,69 +90,71 @@ public class AppointmentServiceImpl implements IAppointmentService {
 //	}
 
 	@Override
-	public boolean updateAppointmentsStatus(String status, Appointment appointment) {
+	public boolean updateAppointmentsStatus( UpdateAppointmentDTO appointment) {
 		
-		
+		String status=appointment.getStatus().toString();
 		int updatedsts = 0;
 		log.info("status-> " + status + "  appointment-> " + appointment.toString());
+		Appointment appointmentById= appointmentDao.findById(appointment.getId()).orElseThrow(()->new ResourceNotFoundException("user does not have user id"+appointment.getId()));
 		
+		User user=appointmentById.getUser();
 		String header = "YOUR APPOINTMENT  REQUEST  " + status;
 		log.info("----header -->" + header);
 		String messageBody ="";
-		if (addressDao.findUserAddress(appointment.getUser().getId()) != null) {
+		if (addressDao.findUserAddress(user.getId()) != null) {
 			updatedsts = appointmentDao.updateAppointmentStatus(Status.valueOf(status), appointment.getId());
 			log.info("----updatedsts--->  " +updatedsts );
 			
 			if (status.equalsIgnoreCase("APPROVED")) {
 				
-				if (updatedsts != 1 || bloodInventoryService.findByBloodGroupAndBagSize(appointment.getBloodGroup(),
-						appointment.getBagSize())<appointment.getBagQuantity()) {
+				if (updatedsts != 1 || bloodInventoryService.findByBloodGroupAndBagSize(appointmentById.getBloodGroup(),
+						appointmentById.getBagSize())<appointmentById.getBagQuantity()) {
 					return false;
 				}
 				log.info("---reducing blood count---> " );
-				bloodInventoryDao.subBloodCount(appointment.getBagQuantity(), LocalDate.now(), appointment.getBagSize(),
-						appointment.getBloodGroup());
+				bloodInventoryDao.subBloodCount(appointmentById.getBagQuantity(), LocalDate.now(), appointmentById.getBagSize(),
+						appointmentById.getBloodGroup());
+				
 				
 				/*
 				 * log.info("---inside mail sending condition checking ---> " ); header =
 				 * "YOUR APPOINTMENT  REQUEST  " + status; messageBody =
-				 * "hello <p><font color=blue>" + appointment.getUser().getFirstName() +
-				 * "</font></p>" +
+				 * "hello <p><font color=blue>" + user.getFirstName() + "</font></p>" +
 				 * " your scheduled appointment status has been <font color=blue>" + status +
 				 * " </font>  details are given bellow ." +
 				 * "<table width='100%' border='1' align='center'>" + "<tr align='center'>" +
 				 * "<td><b>requesting person <b></td>" + "<td><font size=10px,color=blue>" +
-				 * appointment.getUser().getFirstName() + "</font><b></td>" + "</tr>" +
-				 * "<tr align='center'>" + "<td><b>requesting For<b></td>" +
-				 * "<td><font size=10px,color=blue>" + appointment.getPatient().getName() +
+				 * user.getFirstName() + "</font><b></td>" + "</tr>" + "<tr align='center'>" +
+				 * "<td><b>requesting For<b></td>" + "<td><font size=10px,color=blue>" +
+				 * appointmentById.getPatient().getName() + "</font><b></td>" + "</tr>" +
+				 * "<tr align='center'>" + "<td><b>Blood Group<b></td>" +
+				 * "<td><font size=10px,color=blue>" + appointmentById.getBloodGroup() +
 				 * "</font><b></td>" + "</tr>" + "<tr align='center'>" +
-				 * "<td><b>Blood Group<b></td>" + "<td><font size=10px,color=blue>" +
-				 * appointment.getBloodGroup() + "</font><b></td>" + "</tr>" +
-				 * "<tr align='center'>" + "<td><b>Bag Size<b></td>" +
-				 * "<td><font size=10px,color=blue>" + appointment.getBagSize() +
+				 * "<td><b>Bag Size<b></td>" + "<td><font size=10px,color=blue>" +
+				 * appointmentById.getBagSize() + "</font><b></td>" + "</tr>" +
+				 * "<tr align='center'>" + "<td><b>Bag Quantity<b></td>" +
+				 * "<td><font size=10px,color=blue>" + appointmentById.getBagQuantity() +
 				 * "</font><b></td>" + "</tr>" + "<tr align='center'>" +
-				 * "<td><b>Bag Quantity<b></td>" + "<td><font size=10px,color=blue>" +
-				 * appointment.getBagQuantity() + "</font><b></td>" + "</tr>" +
-				 * "<tr align='center'>" + "<td><b>Appointment Schedule Date<b></td>" +
-				 * "<td><font size=10px,color=blue>" + appointment.getAppointmentScheduleDate()
-				 * + "</font><b></td>" + "</tr>" + "<tr align='center'>" +
-				 * "<td><b>Appointment Scheduled Status<b></td>" +
-				 * "<td><font size=10px,color=blue>" + appointment.getAppointmentScheduleDate()
-				 * + "</font><b></td>" + "</tr>"
+				 * "<td><b>Appointment Schedule Date<b></td>" +
+				 * "<td><font size=10px,color=blue>" +
+				 * appointmentById.getAppointmentScheduleDate() + "</font><b></td>" + "</tr>" +
+				 * "<tr align='center'>" + "<td><b>Appointment Scheduled Status<b></td>" +
+				 * "<td><font size=10px,color=blue>" +
+				 * appointmentById.getAppointmentScheduleDate() + "</font><b></td>" + "</tr>"
 				 * 
 				 * ; log.info("----sending mail ---in approved condition-> " );
-				 * emailSendingService.sendEmail(appointment.getUser().getEmail(),messageBody,
-				 * header );
+				 * emailSendingService.sendEmail(user.getEmail(),messageBody, header );
 				 */
+				 
 			} else {
+				
 				/*
 				 * log.info("----sending mail ---in rejected condition-> " ); messageBody =
 				 * messageBody +
 				 * " <font/> due to some reason .<p> <ul> unavaliability of blood</ul> " +
 				 * "<ul> you may have not registered your address(please register your address)</ul> </p>"
-				 * ; emailSendingService.sendEmail(appointment.getUser().getEmail(),
-				 * messageBody, header );
-				 */	}
+				 * ; emailSendingService.sendEmail(user.getEmail(), messageBody, header );
+				 */}
 
 		}
 
