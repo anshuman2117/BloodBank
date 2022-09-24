@@ -73,11 +73,20 @@ public class AppointmentServiceImpl implements IAppointmentService {
 	// methood to return list of all pending  appointment
 	@Override
 	public List<AppointmentDTO> pendingAppointments() {
-
+System.out.println("reached here---- in pending appt");
 		List<AppointmentDTO> appointmentDTOs= appointmentDao.findByStatus(Status.PENDING)
 				.stream()
 				.map(i -> mapper.map(i, AppointmentDTO.class))
 				.collect(Collectors.toList());
+		
+		for (AppointmentDTO appointmentDTO : appointmentDTOs) {
+			System.out.println(/*
+								 * "user name  "+appointmentDTO.getUser().getFirstName()+"   and  role "+
+								 * appointmentDTO.getUser().getRole()+
+								 */" sts--> "+appointmentDTO.getStatus());
+		
+		}
+		
 //		List<AppointmentDTO> appointmentDTOs=appointmentDao.findByStatus(Status.PENDING);
 		
 		 return appointmentDTOs;

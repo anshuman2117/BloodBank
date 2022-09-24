@@ -31,4 +31,8 @@ public interface IUserService {
 	public byte[] restoreImage(Long id);
 
 	public User storeImage(Long id, MultipartFile imageFile);
+
+	public UserDTO getByEmailId(String name);
+
+	
 }

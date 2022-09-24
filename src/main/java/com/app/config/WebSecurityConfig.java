@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.csrf().disable().
 		authorizeRequests()
 		.antMatchers("/users").hasAnyRole("USER")		
-		.antMatchers("/users").hasAnyRole("USER")		
+		.antMatchers("/api/appointment").hasAnyRole("USER")		
 		.antMatchers("/users").hasAnyRole("USER")		
 		.antMatchers("/api/admin").hasRole("ADMIN") 
 		.antMatchers("/api/bloodbank","/api/auth/**","/users/**").permitAll() //enabling global access to all urls with /api/auth 

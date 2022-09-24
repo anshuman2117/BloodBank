@@ -25,7 +25,7 @@ import lombok.Setter;
 public class AppointmentDTO {
 
 	
-	private User user;
+//	private User user;
 	
 	@JsonProperty(access = Access.READ_ONLY)
 	private Long id;//user

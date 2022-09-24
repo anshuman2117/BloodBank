@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +24,7 @@ import com.app.service.AppointmentService.IAppointmentService;
 
 @RestController
 @RequestMapping("/api/appointment")
+@CrossOrigin("*")
 public class AppointmentController {
 
 	@Autowired
@@ -34,9 +35,14 @@ public class AppointmentController {
 	
 	@PostMapping("/createAppointment/{userId}")
 	public ResponseEntity<?> createNewAppointment(@PathVariable Long  userId,@RequestBody SaveAppointmentDTO appointment){
+		if(appointment==null)
+			return new ResponseEntity<>("can not send empty request!!",HttpStatus.BAD_REQUEST);
 		
-		return new ResponseEntity<>(appointmentService.saveAppointment(userId,appointment),HttpStatus.CREATED);
-		
+		Appointment appointment2 = appointmentService.saveAppointment(userId,appointment);
+		if(appointment2!=null)
+		return new ResponseEntity<>("appointment created succefully!!",HttpStatus.CREATED);
+		else
+			return new ResponseEntity<>("appointment could not created!!",HttpStatus.BAD_REQUEST);
 	}
 	
 	@GetMapping("/getUserAppointment/{id}")

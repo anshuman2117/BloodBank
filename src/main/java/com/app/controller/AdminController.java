@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/admin")
+@CrossOrigin("*")
 @Slf4j
 public class AdminController {
 // dep:  for  user service i/f
@@ -148,9 +150,9 @@ public class AdminController {
 	public ResponseEntity<?> createEvents(@RequestBody Event event){
 		Event returnEvent=eventService.createEvent(event);
 		if(returnEvent!=null)
-			return new ResponseEntity<Event>(returnEvent,HttpStatus.CREATED);
+			return new ResponseEntity<>("event created successfully",HttpStatus.CREATED);
 		else
-			return new ResponseEntity<>(" event could not be created ",HttpStatus.FORBIDDEN);
+			return new ResponseEntity<>(" event could not be created something bad happed!!!",HttpStatus.FORBIDDEN);
 	}
 	
 	
@@ -210,11 +212,6 @@ public class AdminController {
 	    
 	    
 	    
-	    
-	    
-	    
-	    
-	
 	
 	
 	

@@ -45,7 +45,7 @@ public class Event extends BaseEntity {
 	@Column(name = "event_end_time")
 	@DateTimeFormat(pattern = "hh:mm:ss")
 	private Time eventEndTime;
-	
+	 
 	private String event_poster;
 	
 	private String venue;

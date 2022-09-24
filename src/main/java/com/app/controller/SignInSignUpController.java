@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dao.IUserDao;
 import com.app.dto.AuthRequest;
 import com.app.dto.AuthResp;
+import com.app.dto.UserDTO;
 import com.app.jwt_utils.JwtUtils;
+import com.app.service.UserService.IUserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +35,9 @@ public class SignInSignUpController {
 	// dep : Auth mgr
 	@Autowired
 	private AuthenticationManager manager;
+	
+	@Autowired
+	private IUserService userService;
 
 	// add a method to authenticate user . Incase of success --send back token , o.w
 	// send back err mesg
@@ -45,12 +51,16 @@ public class SignInSignUpController {
 		try {
 			// authenticate the credentials
 			Authentication authenticatedDetails = manager.authenticate(authToken);
+			UserDTO userDTO = userService.getByEmailId(authenticatedDetails.getName());
+			
+			
 			// => auth succcess
-			return ResponseEntity.ok(new AuthResp("Auth successful!", utils.generateJwtToken(authenticatedDetails)));
+//			return ResponseEntity.ok(new AuthResp("Auth successful!", utils.generateJwtToken(authenticatedDetails),userDTO));
+			return ResponseEntity.status(HttpStatus.OK).body(new AuthResp("Login successfull", utils.generateJwtToken(authenticatedDetails),userDTO));
 		} catch (BadCredentialsException e) { // lab work : replace this by a method in global exc handler
 			// send back err resp code
 			System.out.println("err "+e);
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new AuthResp("Email Id or Password not matched  try again!!!!", null,null));
 		}
 
 	}

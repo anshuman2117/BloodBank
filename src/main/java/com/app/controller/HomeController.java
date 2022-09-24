@@ -37,11 +37,13 @@ public class HomeController {
 	public HomeController() {
 		System.out.println("in ctor of " + getClass());
 	}
-
+	
+	
+// users will get all upcoming events on home page
 	@GetMapping("/")
 	public ResponseEntity<?> showHomePage() {
 		log.info("in home page  of home controller ");
-		return new ResponseEntity<>(eventService.listUpcomingEvents(),HttpStatus.CREATED);
+		return new ResponseEntity<>(/*eventService.listUpcomingEvents()*/"hey ...... link connected",HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value="/event/{id}/image",produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE})

@@ -205,6 +205,17 @@ System.out.println("user--->   "+user);
 		
 		return imageHandlingService.downlaodImage(completePath);
 	}
+
+
+	@Override
+	public UserDTO getByEmailId(String name) {
+		User user = userDao.findByEmail(name);
+		
+		return modelMapper.map(user, UserDTO.class);
+	}
+
+
+	
 	
 	
 

@@ -9,6 +9,7 @@ import org.springframework.format.annotation.NumberFormat;
 
 import com.app.entities.DocumentType;
 import com.app.entities.Gender;
+import com.app.entities.Role;
 import com.app.entities.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -58,6 +59,9 @@ public class UserDTO {
 	
 	@JsonProperty(access = Access.READ_ONLY)
 	Status status ;
+	
+	@JsonProperty(access = Access.READ_ONLY)
+	private Role role;
 	
 	public UserDTO(){
 		this.status=Status.PENDING;
