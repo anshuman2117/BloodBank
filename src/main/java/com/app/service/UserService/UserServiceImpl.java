@@ -27,8 +27,11 @@ import com.app.service.IEmailSendingService;
 import com.app.service.ImageHandlingService;
 import com.app.service.IdentityproofService.IIdentityProofService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Transactional
+@Slf4j
 public class UserServiceImpl implements IUserService {
 	@Value("${file.upload.location}")
 	private String baseFolder;
@@ -84,12 +87,14 @@ public class UserServiceImpl implements IUserService {
 	public UserDTO addUser(UserDTO userdto) {
 		
 		if(userDao.findByEmail(userdto.getEmail())!=null) {
+			log.info("  in not null value  user service impl  ");
 			return null;
 		}
 		else
 		{
 			User user=modelMapper.map(userdto, User.class);  // Mapping userdto to user
 			user.setPassword(encoder.encode(user.getPassword()));
+			user.setRole(Role.ROLE_USER);
 			User user1 = userDao.save(user);
 			IdentityProof identityProof=modelMapper.map(userdto, IdentityProof.class);
 			identityProof.setUser(user1);

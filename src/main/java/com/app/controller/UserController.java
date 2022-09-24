@@ -83,10 +83,11 @@ public class UserController {
 	//Add user
 	@PostMapping("/register")
 	public ResponseEntity<?> addUser(@RequestBody UserDTO userDto){
-		
-		UserDTO userDtoReturn=userService.addUser(userDto);                       // persisting user data
+		log.info("incoming user req. "+userDto);
+		UserDTO userDtoReturn=userService.addUser(userDto);   // persisting user data
+		log.info("returning user req user req. "+userDtoReturn);
 		   if(userDtoReturn==null)
-		return new ResponseEntity<>("user already exists", HttpStatus.CONFLICT);
+		return new ResponseEntity<>(new String("user already exists"), HttpStatus.CONFLICT);
 		   else
 		   return new ResponseEntity<>(userDtoReturn, HttpStatus.CREATED);
 	}

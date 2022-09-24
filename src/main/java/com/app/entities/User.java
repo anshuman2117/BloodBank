@@ -56,8 +56,7 @@ public class User extends BaseEntity {
 	private String image;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(length = 10)
-	
+	@Column(length = 30)
 	
 	private Role role=Role.ROLE_USER;
 	
