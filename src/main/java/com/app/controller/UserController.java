@@ -89,7 +89,7 @@ public class UserController {
 		   if(userDtoReturn==null)
 		return new ResponseEntity<>(new String("user already exists"), HttpStatus.CONFLICT);
 		   else
-		   return new ResponseEntity<>(userDtoReturn, HttpStatus.CREATED);
+		   return new ResponseEntity<>(userDtoReturn, HttpStatus.OK);
 	}
 	
 	//Update user details
@@ -100,7 +100,7 @@ public class UserController {
 		IdentityProof identityProof=modelMapper.map(identityProof1, IdentityProof.class);
 		User updatedUser = userService.updateUser(id,user);
 		identityProof.setUser(updatedUser);
-		return new ResponseEntity<>(identityProofService.saveIdentityProof(id,identityProof),HttpStatus.CREATED);
+		return new ResponseEntity<>(identityProofService.saveIdentityProof(id,identityProof),HttpStatus.OK);
 	}
 	
 	
@@ -111,7 +111,7 @@ public class UserController {
 	@PostMapping("/{id}/image")
 	public  ResponseEntity<User> uploadImage(@PathVariable Long id,@RequestParam MultipartFile imageFile ){
 	
-		return new  ResponseEntity<>(userService.storeImage(id, imageFile),HttpStatus.CREATED);
+		return new  ResponseEntity<>(userService.storeImage(id, imageFile),HttpStatus.OK);
 	}
 	
 	
@@ -131,9 +131,9 @@ public class UserController {
 	public ResponseEntity<?> getBloodDonationById(@PathVariable Long id){
 		List<BloodDonation> allDonationByUser = bloodDonationService.getAllDonationByUser(id);
 		if(allDonationByUser!=null)
-		return new ResponseEntity<>(allDonationByUser,HttpStatus.FOUND);
+		return new ResponseEntity<>(allDonationByUser,HttpStatus.OK);
 		else
-			return new ResponseEntity<>("no blood donation",HttpStatus.FOUND);
+			return new ResponseEntity<>("no blood donation",HttpStatus.OK);
 	}
 	
 	
