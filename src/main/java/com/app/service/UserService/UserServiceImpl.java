@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.custom_excpetions.ResourceNotFoundException;
+import com.app.dao.IIdentityProofDao;
 import com.app.dao.IUserDao;
 import com.app.dto.UserDTO;
 import com.app.entities.Gender;
@@ -46,6 +47,9 @@ public class UserServiceImpl implements IUserService {
 	private IIdentityProofService proofService;
 	
 	@Autowired
+	private IIdentityProofDao proofDao;
+	
+	@Autowired
 	private ModelMapper modelMapper;
 	
 	@Autowired
@@ -56,7 +60,7 @@ public class UserServiceImpl implements IUserService {
 	
 	
 	@Override
-	public List<User> getAllUsers() {
+	public List<IdentityProof> getAllUsers() {
 		
 		// in case of pagination we can apply pagination
 //		int pagesize=5;
@@ -64,7 +68,10 @@ public class UserServiceImpl implements IUserService {
 //		Pageable p=PageRequest.of(pageno, pagesize);// in case of sorting also(sortby use overloaded method)
 //		Page<User> page = userDao.findAll(p);
 //		List<User> content = page.getContent();
-		return userDao.findByRole(Role.ROLE_USER);
+		
+		
+		
+		return  proofDao.findByUserRole(Role.ROLE_USER);
 	}
 	
 	

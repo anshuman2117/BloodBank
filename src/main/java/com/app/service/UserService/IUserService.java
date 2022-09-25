@@ -5,11 +5,12 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.UserDTO;
+import com.app.entities.IdentityProof;
 import com.app.entities.User;
 
 public interface IUserService {
 	// to get the list of all registered user
-	public List<User> getAllUsers();
+	public List<IdentityProof> getAllUsers();
 
 	// to get the user details by giving email and password ->for login
 	public User getByEmailAndPassword(String email, String password);

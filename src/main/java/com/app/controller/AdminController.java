@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000")
 @Slf4j
 public class AdminController {
 // dep:  for  user service i/f
@@ -252,7 +252,16 @@ public class AdminController {
 	
 	
 	
-
+//Get all users{task of admin}
+	
+	@GetMapping("/users/listOfAll")
+	public ResponseEntity<?> getAllUsers(){
+		List<IdentityProof> users = userService.getAllUsers();
+		if (users.isEmpty()) 
+			return new ResponseEntity<>("user list is empty", HttpStatus.OK);
+		return new ResponseEntity<>(users,HttpStatus.OK);
+	}
+	
 
 	
 	
@@ -265,15 +274,6 @@ public class AdminController {
 	
 	
 	
-	//Get all users{task of admin}
-	
-//	@GetMapping
-//	public ResponseEntity<?> getAllUsers(){
-//		List<User> users = userService.getAllUsers();
-//		if (users.isEmpty()) 
-//			return new ResponseEntity<>("user list is empty", HttpStatus.OK);
-//		return new ResponseEntity<>(users,HttpStatus.OK);
-//	}
 	
 	
 	

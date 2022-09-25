@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import com.app.entities.DocumentType;
 import com.app.entities.Gender;
 import com.app.entities.IdentityProof;
+import com.app.entities.Role;
 import com.app.entities.Status;
 import com.app.entities.User;
 
@@ -20,6 +21,11 @@ public interface IIdentityProofDao extends JpaRepository<IdentityProof, Long> {
 	// method to find the identity_proof  by user id
 	@Query(value = "select i from IdentityProof i where i.user.id=:id")
 	IdentityProof findByUserId(@Param("id") Long id);
+	
+	
+	// method to return 
+	@Query(value = "select i from IdentityProof i where i.user.role=:role")
+	List<IdentityProof>  findByUserRole(@Param("role") Role role);
 	
 	// method to find the identity_proof id by user id
 	@Query(value = "select i.id from IdentityProof i where i.user.id=:id")
