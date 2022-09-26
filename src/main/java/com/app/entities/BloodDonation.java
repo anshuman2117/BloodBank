@@ -64,9 +64,7 @@ public class BloodDonation extends BaseEntity {
 	@Column(name = "donation_date")
 	private LocalDate dateOfDonation;
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "creation_date")
-	private LocalDate creationDate;
+	
 
 	public BloodDonation(User user, BloodGroup bloodGroup, int bagSize, int bagQuantity
 			) {
@@ -78,7 +76,7 @@ public class BloodDonation extends BaseEntity {
 		this.bagSize = bagSize;
 		this.bagQuantity = bagQuantity;
 		this.dateOfDonation = LocalDate.now();
-		this.creationDate = LocalDate.now();
+		
 	}
 
 	

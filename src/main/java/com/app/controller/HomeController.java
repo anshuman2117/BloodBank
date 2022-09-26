@@ -56,6 +56,12 @@ public class HomeController {
 	
 	
 	
+	// add req method to to download event image for specific request
+	
+		
+	
+	
+	
 	@GetMapping("/login")
 	public ResponseEntity<?> userLogin(@RequestBody UserLogInDTO dto) {
 		System.out.println(" user_email "+dto.getEmail()+" pass "+dto.getPassword());

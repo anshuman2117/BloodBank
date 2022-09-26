@@ -31,6 +31,7 @@ public class BloodDonationDTO {
 	
 	private int bagQuantity;
 	
+	@JsonProperty(access = Access.READ_ONLY)
 	private LocalDate dateOfDonation;
 	
 	@JsonProperty(access = Access.READ_ONLY)

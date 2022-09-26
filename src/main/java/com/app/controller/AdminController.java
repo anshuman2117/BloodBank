@@ -42,7 +42,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("*")
 @Slf4j
 public class AdminController {
 // dep:  for  user service i/f
@@ -82,7 +82,7 @@ public class AdminController {
 	@PostMapping("/blooddonation/createBloodDonation/{id}")
 	public ResponseEntity<?> createBloodDonation(@PathVariable Long id, @RequestBody BloodDonationDTO blood) {
     log.info("request for create blood donation of "+id+" req body "+blood);
-		return new ResponseEntity<>(donationService.createBloodDonation(id, blood), HttpStatus.CREATED);
+		return new ResponseEntity<>(donationService.createBloodDonation(id, blood), HttpStatus.OK);
 	}
 
 	
@@ -203,15 +203,15 @@ public class AdminController {
 		}
 		
 		
-		// add req method to to download event image for specific request
-		
-		@GetMapping(value="/event/{id}/image",produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE})
-		public ResponseEntity<?> restoreImage(@PathVariable Long id){
-			log.info("getting req. for event image download  ");
-			
-			byte[] restoreImage = eventService.restoreImage(id);
-			return new ResponseEntity<>(restoreImage,HttpStatus.OK);
-		}
+//		// add req method to to download event image for specific request
+//		
+//		@GetMapping(value="/event/{id}/image",produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE})
+//		public ResponseEntity<?> restoreImage(@PathVariable Long id){
+//			log.info("getting req. for event image download  ");
+//			
+//			byte[] restoreImage = eventService.restoreImage(id);
+//			return new ResponseEntity<>(restoreImage,HttpStatus.OK);
+//		}
 	    
 	    
 	    
@@ -233,8 +233,13 @@ public class AdminController {
 	// add blood in blood inventory
 	@PutMapping("/bloodinventory/addblood")
 	public ResponseEntity<?> addBloodStock(@RequestBody BloodInventory inventory) {
-
-		return new ResponseEntity<>(inventoryService.addBloodInventory(inventory), HttpStatus.CREATED);
+		BloodInventory addBloodInventory = inventoryService.addBloodInventory(inventory);
+		if(addBloodInventory!=null)
+		return new ResponseEntity<>(new String("blood stock updated in bloodbank") , HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new String("blood stock can't be updated in bloodbank") , HttpStatus.BAD_REQUEST
+					);
+		
 	}
 
 	
