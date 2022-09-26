@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.app.dto.AddUserByAdminDTO;
 import com.app.dto.AppointmentDTO;
 import com.app.dto.BloodDonationDTO;
 import com.app.dto.UpdateAppointmentDTO;
@@ -70,7 +71,7 @@ public class AdminController {
 	
 	// Admin will create an user with verified status
 	@PostMapping("/user/add_donor_user")
-	public ResponseEntity<User> addUser(@RequestBody UserDTO userdto) {
+	public ResponseEntity<User> addUser(@RequestBody AddUserByAdminDTO userdto) {
 		log.info("---user dto---" + userdto);
 		return new ResponseEntity<>(userService.addUserByAdmin(userdto), HttpStatus.CREATED);
 	}

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.app.custom_excpetions.ResourceNotFoundException;
 import com.app.dao.IIdentityProofDao;
 import com.app.dao.IUserDao;
+import com.app.dto.AddUserByAdminDTO;
 import com.app.dto.UserDTO;
 import com.app.entities.Gender;
 import com.app.entities.IdentityProof;
@@ -127,9 +128,10 @@ public class UserServiceImpl implements IUserService {
 	
 	
 	@Override
-	public User addUserByAdmin(UserDTO userdto) {
+	public User addUserByAdmin(AddUserByAdminDTO userdto) {
 		User user=modelMapper.map(userdto, User.class);  // Mapping userdto to user
-		user.setPassword(user.getFirstName()+""+user.getAge());
+		user.setPassword(encoder.encode(user.getFirstName()+""+user.getAge()));
+		user.setRole(Role.ROLE_USER);
 		User user1 = userDao.save(user);
 		IdentityProof identityProof=modelMapper.map(userdto, IdentityProof.class);
 		identityProof.setUser(user1);
@@ -140,7 +142,7 @@ public class UserServiceImpl implements IUserService {
 		if(user1!=null && proof!=null) {
 			String messageBody="Hey <h3> "+user1.getFirstName()+" </h3> you are registered with us successfully"
 					+" your pre defind password is <b>your first name+your age</b>i.e.<i><b>( "
-					+user1.getPassword()+"</b></i><p></p>"
+					+user1.getFirstName()+user1.getAge()+"</b></i><p></p>"
 					+" visit us with your credentials "
 					+"<p>email:<p style='color:red;'>"+user1.getEmail()+"</p>"
 					+"<p>pass :<p style='color:blue;'>"+user1.getPassword()+"</p>"

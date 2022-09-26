@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.app.dto.AddUserByAdminDTO;
 import com.app.dto.UserDTO;
 import com.app.entities.IdentityProof;
 import com.app.entities.User;
@@ -21,7 +22,7 @@ public interface IUserService {
 //	  to add a new user
 	public UserDTO addUser(UserDTO user);
 	
-	public User addUserByAdmin(UserDTO user);
+	public User addUserByAdmin(AddUserByAdminDTO user);
 
 //	  	  to update / modify  the user detail
 	public User updateUser(Long id,User user);

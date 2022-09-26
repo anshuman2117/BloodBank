@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.app.service.AddressService.IAddressService;
 
 @RestController
 @RequestMapping("/address")
+@CrossOrigin
 public class AddressController {
 
 	@Autowired
@@ -49,8 +51,10 @@ public class AddressController {
 	@PostMapping("/add_address/{id}")
 	public ResponseEntity<?> addAddress(@PathVariable Long id, @RequestBody AddressDTO dto){
 		
-		return new ResponseEntity<>(addressService.addAddress(dto),HttpStatus.CREATED);
+		return new ResponseEntity<>(addressService.addAddress(id, dto),HttpStatus.CREATED);
 	}
+	
+	
 	@PutMapping("/update_address/{id}")
 	public ResponseEntity<?> updateAddress(@PathVariable Long id, @RequestBody Address dto){
 //		System.out.println("getting a request");

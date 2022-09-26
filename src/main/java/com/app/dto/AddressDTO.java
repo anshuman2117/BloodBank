@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 public class AddressDTO {
 
-	@JsonProperty(access = Access.WRITE_ONLY)
+	@JsonProperty(access = Access.READ_ONLY)
 	private User user;
 	
 	@JsonProperty(access = Access.READ_ONLY)

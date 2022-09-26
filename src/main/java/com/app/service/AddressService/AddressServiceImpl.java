@@ -1,6 +1,7 @@
 package com.app.service.AddressService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -8,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.app.custom_excpetions.ResourceNotFoundException;
 import com.app.dao.IAddressDao;
+import com.app.dao.IUserDao;
 import com.app.dto.AddressDTO;
 import com.app.dto.AppointmentDTO;
 import com.app.entities.Address;
 import com.app.entities.Status;
+import com.app.entities.User;
 
 @Service
 @Transactional
@@ -23,6 +27,9 @@ public class AddressServiceImpl implements IAddressService {
 
 	@Autowired
 	private ModelMapper mapper;
+	
+	@Autowired
+	private IUserDao userDao;
 
 	@Override
 	public List<AddressDTO> getAllAddresses() {
@@ -54,10 +61,10 @@ public class AddressServiceImpl implements IAddressService {
 	}
 
 	@Override
-	public Address addAddress(AddressDTO address) {
-
+	public Address addAddress(Long id, AddressDTO address) {
+		User user = userDao.findById(id).orElseThrow(()->new ResourceNotFoundException("user not found!!!")); 
 		Address address2=mapper.map(address, Address.class);
-
+        address2.setUser(user);
 		return addressDao.saveAndFlush(address2);
 	}
 

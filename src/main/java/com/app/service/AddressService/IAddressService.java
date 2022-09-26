@@ -11,7 +11,7 @@ public interface IAddressService {
 	
 	public List<AddressDTO> getAllAddressofUser(Long id/* ,Address address */);
 	
-	public Address addAddress(AddressDTO address);
+	public Address addAddress(Long id,AddressDTO address);
 //	public Address addAddress(Address address);
 	
 	public Address updateAddress(Address address);
@@ -19,4 +19,6 @@ public interface IAddressService {
 	public String deleteAddress(Long id);
 
 	public /*List<*/Address defaultUsersAddress(Long id/* ,Address address */);
+
+	
 }

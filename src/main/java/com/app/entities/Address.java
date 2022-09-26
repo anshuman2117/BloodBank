@@ -58,8 +58,7 @@ public class Address extends BaseEntity {
 	@Column(name = "address")
 	private String address;
 	
-	@Column(name = "is_default")
-	private boolean isDefault;
+	
 
 	public Address( User user, String city, String state, int pincode,
 			String address) {
@@ -71,7 +70,7 @@ public class Address extends BaseEntity {
 		this.state = state;
 		this.pincode = pincode;
 		this.address = address;
-		this.isDefault = true;
+		
 	}
 	
 	

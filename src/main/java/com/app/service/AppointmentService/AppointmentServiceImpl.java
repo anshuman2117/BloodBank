@@ -116,45 +116,45 @@ public class AppointmentServiceImpl implements IAppointmentService {
 						appointmentById.getBloodGroup());
 				
 				
-				/*
-				 * log.info("---inside mail sending condition checking ---> " ); header =
-				 * "YOUR APPOINTMENT  REQUEST  " + status; messageBody =
-				 * "hello <p><font color=blue>" + user.getFirstName() + "</font></p>" +
-				 * " your scheduled appointment status has been <font color=blue>" + status +
-				 * " </font>  details are given bellow ." +
-				 * "<table width='100%' border='1' align='center'>" + "<tr align='center'>" +
-				 * "<td><b>requesting person <b></td>" + "<td><font size=10px,color=blue>" +
-				 * user.getFirstName() + "</font><b></td>" + "</tr>" + "<tr align='center'>" +
-				 * "<td><b>requesting For<b></td>" + "<td><font size=10px,color=blue>" +
-				 * appointmentById.getPatient().getName() + "</font><b></td>" + "</tr>" +
-				 * "<tr align='center'>" + "<td><b>Blood Group<b></td>" +
-				 * "<td><font size=10px,color=blue>" + appointmentById.getBloodGroup() +
-				 * "</font><b></td>" + "</tr>" + "<tr align='center'>" +
-				 * "<td><b>Bag Size<b></td>" + "<td><font size=10px,color=blue>" +
-				 * appointmentById.getBagSize() + "</font><b></td>" + "</tr>" +
-				 * "<tr align='center'>" + "<td><b>Bag Quantity<b></td>" +
-				 * "<td><font size=10px,color=blue>" + appointmentById.getBagQuantity() +
-				 * "</font><b></td>" + "</tr>" + "<tr align='center'>" +
-				 * "<td><b>Appointment Schedule Date<b></td>" +
-				 * "<td><font size=10px,color=blue>" +
-				 * appointmentById.getAppointmentScheduleDate() + "</font><b></td>" + "</tr>" +
-				 * "<tr align='center'>" + "<td><b>Appointment Scheduled Status<b></td>" +
-				 * "<td><font size=10px,color=blue>" +
-				 * appointmentById.getAppointmentScheduleDate() + "</font><b></td>" + "</tr>"
-				 * 
-				 * ; log.info("----sending mail ---in approved condition-> " );
-				 * emailSendingService.sendEmail(user.getEmail(),messageBody, header );
-				 */
+				
+				  log.info("---inside mail sending condition checking ---> " ); header =
+				  "YOUR APPOINTMENT  REQUEST  " + status; messageBody =
+				  "hello <p><font color=blue>" + user.getFirstName() + "</font></p>" +
+				  " your scheduled appointment status has been <font color=blue>" + status +
+				  " </font>  details are given bellow ." +
+				  "<table width='100%' border='1' align='center'>" + "<tr align='center'>" +
+				  "<td><b>requesting person <b></td>" + "<td><font size=10px,color=blue>" +
+				  user.getFirstName() + "</font><b></td>" + "</tr>" + "<tr align='center'>" +
+				  "<td><b>requesting For<b></td>" + "<td><font size=10px,color=blue>" +
+				  appointmentById.getPatient().getName() + "</font><b></td>" + "</tr>" +
+				  "<tr align='center'>" + "<td><b>Blood Group<b></td>" +
+				  "<td><font size=10px,color=blue>" + appointmentById.getBloodGroup() +
+				  "</font><b></td>" + "</tr>" + "<tr align='center'>" +
+				  "<td><b>Bag Size<b></td>" + "<td><font size=10px,color=blue>" +
+				  appointmentById.getBagSize() + "</font><b></td>" + "</tr>" +
+				  "<tr align='center'>" + "<td><b>Bag Quantity<b></td>" +
+				  "<td><font size=10px,color=blue>" + appointmentById.getBagQuantity() +
+				  "</font><b></td>" + "</tr>" + "<tr align='center'>" +
+				  "<td><b>Appointment Schedule Date<b></td>" +
+				  "<td><font size=10px,color=blue>" +
+				  appointmentById.getAppointmentScheduleDate() + "</font><b></td>" + "</tr>" +
+				  "<tr align='center'>" + "<td><b>Appointment Scheduled Status<b></td>" +
+				  "<td><font size=10px,color=blue>" +
+				  appointmentById.getAppointmentScheduleDate() + "</font><b></td>" + "</tr>"
+				  
+				  ; log.info("----sending mail ---in approved condition-> " );
+				  emailSendingService.sendEmail(user.getEmail(),messageBody, header );
+				 
 				 
 			} else {
 				
-				/*
-				 * log.info("----sending mail ---in rejected condition-> " ); messageBody =
-				 * messageBody +
-				 * " <font/> due to some reason .<p> <ul> unavaliability of blood</ul> " +
-				 * "<ul> you may have not registered your address(please register your address)</ul> </p>"
-				 * ; emailSendingService.sendEmail(user.getEmail(), messageBody, header );
-				 */}
+				
+				  log.info("----sending mail ---in rejected condition-> " ); messageBody =
+				  messageBody +
+				  " <font/> due to some reason .<p> <ul> unavaliability of blood</ul> " +
+				  "<ul> you may have not registered your address(please register your address)</ul> </p>"
+				  ; emailSendingService.sendEmail(user.getEmail(), messageBody, header );
+				 }
 
 		}
 
