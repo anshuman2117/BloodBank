@@ -44,12 +44,11 @@ public class BloodDonationServiceImpl implements IBloodDonationService {
 	public BloodDonationDTO createBloodDonation(Long id,BloodDonationDTO donation) {
 		BloodDonationDTO donationDTO=null;
 		BloodDonation transientData=mapper.map(donation, BloodDonation.class);
-		
+	  log.info("incoming data-> "+transientData);
 		log.info(" transient mapped data "+transientData);
 		transientData.setUser(userDao.findById(id).orElseThrow(()->new ResourceNotFoundException("given user does not exist")));
 		transientData.setBloodSampleId(donation.getBloodGroup()+""+new Date().getTime());
 		transientData.setDateOfDonation(LocalDate.now());
-		transientData.setCreationDate(LocalDate.now());
 		BloodDonation persisted = bloodDonationDao.saveAndFlush(transientData);
 		
 		if(persisted!=null) {

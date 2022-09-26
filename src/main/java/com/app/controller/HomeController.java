@@ -7,9 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.UserLogInDTO;
 import com.app.entities.User;
@@ -56,10 +59,21 @@ public class HomeController {
 	
 	
 	
-	// add req method to to download event image for specific request
+	// add req method to to download image for specific request
+	
+		@GetMapping(value="/{id}/image",produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE})
+		public ResponseEntity<?> restoreImag2User(@PathVariable Long id){
+			byte[] restoreImage =  iUserService.restoreImage(id);
+			return new ResponseEntity<>(restoreImage,HttpStatus.OK);
+		}
 	
 		
-	
+		// add a method to upload a image on server side
+		@PostMapping("/{id}/image")
+		public  ResponseEntity<User> uploadImage(@PathVariable Long id,@RequestParam MultipartFile imageFile ){
+		
+			return new  ResponseEntity<>(iUserService.storeImage(id, imageFile),HttpStatus.OK);
+		}
 	
 	
 	@GetMapping("/login")
