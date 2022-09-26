@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:3000")
 @Slf4j
 public class SignInSignUpController {
 //dep : JWT utils : for generating JWT

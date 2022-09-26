@@ -30,6 +30,6 @@ public class AddressDTO {
 	
 	private String address;
 	
-	private boolean isDefault;
+	
 	
 }

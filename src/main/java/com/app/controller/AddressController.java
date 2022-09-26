@@ -21,13 +21,13 @@ import com.app.service.AddressService.IAddressService;
 
 @RestController
 @RequestMapping("/address")
-@CrossOrigin
+@CrossOrigin("http://localhost:3000")
 public class AddressController {
 
 	@Autowired
 	private IAddressService addressService;
-	@Autowired
-	private ModelMapper mapper;
+	
+	
 
 	public AddressController() {
 		System.out.println("in ctor of " + getClass());
@@ -42,11 +42,11 @@ public class AddressController {
 		return ResponseEntity.ok(addressDTO);
 	}
 
-	@GetMapping("/default/{id}")
-	public ResponseEntity<?> defaultUsersAddress(@PathVariable Long id/* , @RequestBody Address address1 */) {
-		/* List< */Address/*DTO>*/ address = addressService.defaultUsersAddress(id/* , address1 */);
-		return ResponseEntity.ok(address);
-	}
+//	@GetMapping("/default/{id}")
+//	public ResponseEntity<?> defaultUsersAddress(@PathVariable Long id/* , @RequestBody Address address1 */) {
+//		/* List< */Address/*DTO>*/ address = addressService.defaultUsersAddress(id/* , address1 */);
+//		return ResponseEntity.ok(address);
+//	}
 	
 	@PostMapping("/add_address/{id}")
 	public ResponseEntity<?> addAddress(@PathVariable Long id, @RequestBody AddressDTO dto){

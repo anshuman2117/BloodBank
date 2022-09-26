@@ -53,7 +53,7 @@ public class AddressServiceImpl implements IAddressService {
 	public /* List< */Address defaultUsersAddress(Long id/* ,Address address */) {
 
 		
-		return addressDao.findByUserAndIsDefault(id, true);
+		return addressDao.findByUserAndIsDefault(id);
 		
 //		return addressDao.findByUserAndIsDefault(id, true).stream()
 //				.map(i -> mapper.map(i, AddressDTO.class))
