@@ -154,7 +154,7 @@ public class AdminController {
 	public ResponseEntity<?> createEvents(@RequestBody Event event){
 		Event returnEvent=eventService.createEvent(event);
 		if(returnEvent!=null)
-			return new ResponseEntity<>("event created successfully",HttpStatus.CREATED);
+			return new ResponseEntity<>("event created successfully",HttpStatus.OK);
 		else
 			return new ResponseEntity<>(" event could not be created something bad happed!!!",HttpStatus.FORBIDDEN);
 	}
@@ -162,11 +162,11 @@ public class AdminController {
 	
 	
 	// controller to update an event
-	@PutMapping("/event/createEvent/{id}")
+	@PutMapping("/event/createEvent")
 	public ResponseEntity<?> updateEvents(@RequestBody Event event){
 		Event returnEvent=eventService.updateEvent(event);
 		if(returnEvent!=null)
-			return new ResponseEntity<Event>(returnEvent,HttpStatus.CREATED);
+			return new ResponseEntity<Event>(returnEvent,HttpStatus.OK);
 		else
 			return new ResponseEntity<>(" event could not be created ",HttpStatus.FORBIDDEN);
 	}

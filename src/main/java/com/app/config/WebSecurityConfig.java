@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/api/admin/**").hasRole("ADMIN") 
 		.antMatchers("/api/appointment/**","/address/**","/users/**").hasAnyRole("USER")			
 		.antMatchers("/api/bloodbank/**",
-						"/api/auth/**","/api/events"/* ,"/users/**" */).permitAll() //enabling global access to all urls with /api/auth 
+						"/api/auth/**","/api/events/**"/* ,"/users/**" */).permitAll() //enabling global access to all urls with /api/auth 
 		//only for JS clnts (react / angular)
 		.antMatchers(HttpMethod.OPTIONS).permitAll()
 		.and()
