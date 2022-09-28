@@ -45,6 +45,9 @@ public class SignInSignUpController {
 	public ResponseEntity<?> validateUserCreateToken(@RequestBody @Valid AuthRequest request) {
 		// store incoming user details(not yet validated) into Authentication object
 		// Authentication i/f ---> imple by UserNamePasswordAuthToken
+		if(request==null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("empty data sent ");
+		}
 		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(request.getEmail(),
 				request.getPassword());
 		log.info("auth token " + authToken);
@@ -64,4 +67,11 @@ public class SignInSignUpController {
 		}
 
 	}
+	
+	
+	
+	// for signup
+	
+	
+	
 }

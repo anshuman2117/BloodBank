@@ -1,5 +1,7 @@
 package com.app.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.app.dto.UserLogInDTO;
+import com.app.entities.Event;
 import com.app.entities.User;
 import com.app.service.EventService.IEventService;
 import com.app.service.UserService.IUserService;
@@ -46,13 +49,17 @@ public class HomeController {
 	@GetMapping("/home")
 	public ResponseEntity<?> showHomePage() {
 		log.info("in home page  of home controller ");
-		return new ResponseEntity<>(eventService.listUpcomingEvents(),HttpStatus.OK);
+		List<Event> upcomingEvents = eventService.listUpcomingEvents();
+		for (Event event : upcomingEvents) {
+			System.out.println(" events--> "+event);
+		}
+		return new ResponseEntity<>(upcomingEvents,HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/event/{id}/image",produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE})
 	public ResponseEntity<?> restoreImage(@PathVariable Long id){
 		log.info("getting req. for event image download  ");
-		
+		System.out.println("request for image of events");
 		byte[] restoreImage = eventService.restoreImage(id);
 		return new ResponseEntity<>(restoreImage,HttpStatus.OK);
 	}
